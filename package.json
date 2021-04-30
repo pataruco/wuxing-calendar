@@ -1,0 +1,8 @@
+{
+  "name": "procesos-fundamentales",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Pedro Martin <pataruco@gmail.com>",
+  "license": "MIT",
+  "type": "module"
+}
