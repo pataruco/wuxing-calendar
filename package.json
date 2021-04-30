@@ -4,5 +4,8 @@
   "main": "index.js",
   "author": "Pedro Martin <pataruco@gmail.com>",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "astronomy-engine": "^2.0.4"
+  }
 }
