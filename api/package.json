@@ -3,11 +3,16 @@
     "astronomy-engine": "^2.0.4"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^26.6.3",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
   "name": "api",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "jest"
+  }
 }
