@@ -1,10 +1,5 @@
-type Element = 'WOOD' | 'FIRE' | 'EARTH' | 'METAL' | 'WATER';
-
-interface GetElements {
-  solar: Element;
-}
-
 import getSolarElement from './calendars/solar';
+import { GetElements } from './@types/element';
 
 const getElements = (date: Date): GetElements => {
   const solar = getSolarElement(date);
