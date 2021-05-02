@@ -1,5 +1,5 @@
+import { GetElements } from './@types';
 import getSolarElement from './calendars/solar';
-import { GetElements } from './@types/element';
 
 const getElements = (date: Date): GetElements => {
   const solar = getSolarElement(date);

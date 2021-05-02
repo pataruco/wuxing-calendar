@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-
 import { Seasons, AstroTime } from 'astronomy-engine';
+import { GetElements } from '../../@types';
+
 const DAYS_RANGE = 36;
 
 Date.prototype.addDays = function (days: number) {
@@ -37,9 +36,8 @@ const isInWaterRange = (date: Date): boolean => {
   lastYearDecemberSolstice.setUTCHours(0, 0, 0, 0);
   currentYearDecemberSolstice.setUTCHours(0, 0, 0, 0);
 
-  // 1 de enero hasta el final de agua en el año
-  // o
-  // principio de agua el año hasta el 31
+  // From 1st of January until the end of water range on the current hear
+  // From the beginning of water range of the end of the year
 
   const currentYear = date.getFullYear();
   const yearStart = new Date(`${currentYear}-01-01`);
