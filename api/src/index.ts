@@ -12,7 +12,7 @@ const getElements = (date: Date): GetElements => {
   };
 };
 
-const moment = new Date('2021-07-18');
+const moment = new Date('2021-05-05');
 
 const elements = getElements(moment);
 
