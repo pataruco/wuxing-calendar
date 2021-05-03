@@ -1,19 +1,9 @@
 import { Seasons, AstroTime } from 'astronomy-engine';
+
 import { GetElements } from '../../../@types';
+import '../../lib/date';
 
 const DAYS_RANGE = 36;
-
-Date.prototype.addDays = function (days: number) {
-  const date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-};
-
-Date.prototype.substractDays = function (days: number) {
-  const date = new Date(this.valueOf());
-  date.setDate(date.getDate() - days);
-  return date;
-};
 
 Date.prototype.substractYears = function (years: number) {
   const date = new Date(this.valueOf());
