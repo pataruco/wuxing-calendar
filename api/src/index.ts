@@ -1,11 +1,14 @@
 import { GetElements } from '../@types';
+import getLunarElement from './calendars/lunar';
 import getSolarElement from './calendars/solar';
 
 const getElements = (date: Date): GetElements => {
   const solar = getSolarElement(date);
+  const lunar = getLunarElement(date);
 
   return {
     solar,
+    lunar,
   };
 };
 
