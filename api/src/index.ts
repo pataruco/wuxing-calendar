@@ -1,4 +1,4 @@
-import { GetElements } from './@types';
+import { GetElements } from '../@types';
 import getSolarElement from './calendars/solar';
 
 const getElements = (date: Date): GetElements => {
