@@ -1,9 +1,7 @@
 import { Element } from '../../../@types';
 
-const getHourAsFloat = (date: Date): number => {
-  console.log({ date });
-  return date.getHours() + date.getMinutes() / 60;
-};
+const getHourAsFloat = (date: Date): number =>
+  date.getHours() + date.getMinutes() / 60;
 
 interface IsInElementRange {
   date: Date;
@@ -30,13 +28,23 @@ const isInElementRange = ({
 
   const dateAsFloat = getHourAsFloat(date);
 
-  console.log({
-    startAsFloat,
-    dateAsFloat,
-    endAsFloat,
-  });
-
   return dateAsFloat >= startAsFloat && dateAsFloat <= endAsFloat;
+};
+
+const isInWaterRange = (date: Date) => {
+  const start = new Date();
+  start.setHours(21, 36, 0);
+  const startAsFloat = getHourAsFloat(start);
+
+  const end = new Date();
+  end.setHours(2, 24, 0);
+  const endAsFloat = getHourAsFloat(end);
+  const dateAsFloat = getHourAsFloat(date);
+
+  return (
+    (dateAsFloat >= startAsFloat && dateAsFloat < 24) ||
+    dateAsFloat <= endAsFloat
+  );
 };
 
 const getHourElement = (date: Date): Element => {
@@ -66,16 +74,9 @@ const getHourElement = (date: Date): Element => {
       endHour: 20,
       endMinutes: 24,
     }):
-      return 'FIRE';
-    case isInElementRange({
-      date: newDate,
-      startHour: 21,
-      startMinutes: 36,
-      endHour: 2,
-      endMinutes: 24,
-    }):
+      return 'METAL';
+    case isInWaterRange(newDate):
       return 'WATER';
-
     default:
       return 'EARTH';
   }
