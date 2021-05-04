@@ -4,10 +4,10 @@ import '../../lib/date';
 import { GetElements } from '../../../@types';
 
 const DAYS_RANGE = 2;
+
 // the difference in ecliptic longitude between the center of the Sun and the center of the Moon
 // divided by
 // a synodic month(about 29.53 days) as the Moon's orbital positions around Earth and Earth around the Sun shift.
-
 const DEGREES_PER_DAY = Number((360 / 29.53).toPrecision(6)); // 12.1571
 
 const isInWaterRange = (moonPhaseDegrees: number): boolean =>

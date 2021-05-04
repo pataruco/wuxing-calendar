@@ -1,7 +1,7 @@
 import { Seasons, AstroTime } from 'astronomy-engine';
 
-import { GetElements } from '../../../@types';
 import '../../lib/date';
+import { GetElements } from '../../../@types';
 
 const DAYS_RANGE = 36;
 
