@@ -8,21 +8,13 @@ const DAYS_RANGE = 2;
 // divided by
 // a synodic month(about 29.53 days) as the Moon's orbital positions around Earth and Earth around the Sun shift.
 
-const DEGREES_PER_DAY = Number((359 / 29.53).toPrecision(6)); // 12.1571
-// const DEGREES_PER_DAY = 12;
+const DEGREES_PER_DAY = Number((360 / 29.53).toPrecision(6)); // 12.1571
 
-const isInWaterRange = (moonPhaseDegrees: number): boolean => {
-  console.log({
-    moonPhaseDegrees,
-    start: 360 - DAYS_RANGE * DEGREES_PER_DAY,
-    end: 0 + DAYS_RANGE * DEGREES_PER_DAY,
-  });
-
-  return (
-    moonPhaseDegrees >= 360 - (DAYS_RANGE + 1) * DEGREES_PER_DAY &&
-    moonPhaseDegrees <= 0 + DAYS_RANGE * DEGREES_PER_DAY
-  );
-};
+const isInWaterRange = (moonPhaseDegrees: number): boolean =>
+  (moonPhaseDegrees >= 360 - (DAYS_RANGE + 1) * DEGREES_PER_DAY &&
+    moonPhaseDegrees < 360) ||
+  (moonPhaseDegrees >= 0 &&
+    moonPhaseDegrees <= 0 + DAYS_RANGE * DEGREES_PER_DAY);
 
 interface IsInElementRange {
   moonPhaseDegrees: number;
@@ -40,14 +32,6 @@ const getLunarElement = (date: Date): GetElements['lunar'] => {
   date.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 
   const moonPhaseDegrees = MoonPhase(date);
-
-  /*
-0 = new moon
-90 = first quarter
-180 = full moon
-270 = third quarter
-
-  */
 
   switch (true) {
     case isInWaterRange(moonPhaseDegrees):
