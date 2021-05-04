@@ -29,9 +29,10 @@ const isInElementRange = ({
   moonPhaseDegrees <= rangeStart + DAYS_RANGE * DEGREES_PER_DAY;
 
 const getLunarElement = (date: Date): GetElements['lunar'] => {
-  date.setUTCHours(0, 0, 0, 0); // Set beginning of the day
+  const newDate = new Date(date);
+  newDate.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 
-  const moonPhaseDegrees = MoonPhase(date);
+  const moonPhaseDegrees = MoonPhase(newDate);
 
   switch (true) {
     case isInWaterRange(moonPhaseDegrees):
