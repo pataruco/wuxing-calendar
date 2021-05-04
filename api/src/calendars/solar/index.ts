@@ -42,13 +42,14 @@ const isInWaterRange = (date: Date): boolean => {
 };
 
 const getSolarElement = (date: Date): GetElements['solar'] => {
-  date.setUTCHours(0, 0, 0, 0); // Set beginning of the day
+  const newDate = new Date(date);
+  newDate.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 
   const isInElementRange = (seasonDate: Date): boolean => {
     seasonDate.setUTCHours(0, 0, 0, 0);
     return (
-      date >= seasonDate.substractDays(DAYS_RANGE) &&
-      date <= seasonDate.addDays(DAYS_RANGE)
+      newDate >= seasonDate.substractDays(DAYS_RANGE) &&
+      newDate <= seasonDate.addDays(DAYS_RANGE)
     );
   };
 
@@ -66,7 +67,7 @@ const getSolarElement = (date: Date): GetElements['solar'] => {
       return 'FIRE';
     case isInElementRange(septemberEquinox):
       return 'METAL';
-    case isInWaterRange(date):
+    case isInWaterRange(newDate):
       return 'WATER';
     default:
       return 'EARTH';
