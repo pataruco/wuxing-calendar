@@ -8,15 +8,19 @@ describe(getLunarElement, () => {
   const firstOfMay = new Date('2021-05-01');
   const fourthOfDecember = new Date('2021-12-04');
 
-  test.each`
-    date                | expected
-    ${juneSolstice}     | ${'EARTH'}
-    ${decemberSolstice} | ${'FIRE'}
-    ${marchEquinox}     | ${'WOOD'}
-    ${septemberEquinox} | ${'FIRE'}
-    ${firstOfMay}       | ${'METAL'}
-    ${fourthOfDecember} | ${'WATER'}
-  `('returns $expected when date is $date', ({ date, expected }) => {
-    expect(getLunarElement(date)).toBe(expected);
+  describe('NORTHERN hemisphere', () => {
+    test.each`
+      date                | expected
+      ${juneSolstice}     | ${'EARTH'}
+      ${decemberSolstice} | ${'FIRE'}
+      ${marchEquinox}     | ${'WOOD'}
+      ${septemberEquinox} | ${'FIRE'}
+      ${firstOfMay}       | ${'METAL'}
+      ${fourthOfDecember} | ${'WATER'}
+    `('returns $expected when date is $date', ({ date, expected }) => {
+      expect(
+        getLunarElement({ date, exact: false, hemisphere: 'NORTHERN' }),
+      ).toBe(expected);
+    });
   });
 });

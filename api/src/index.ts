@@ -1,11 +1,15 @@
-import { GetElements } from '../@types';
+import { Calendars, GetElement } from '../@types';
 import getHourElement from './calendars/hour';
 import getLunarElement from './calendars/lunar';
 import getSolarElement from './calendars/solar';
 
-const getElements = (date: Date): GetElements => {
-  const solar = getSolarElement(date);
-  const lunar = getLunarElement(date);
+const getElements = ({
+  date,
+  hemisphere = 'NORTHERN',
+  exact = false,
+}: GetElement): Calendars => {
+  const solar = getSolarElement({ date, hemisphere, exact });
+  const lunar = getLunarElement({ date, hemisphere, exact });
   const hour = getHourElement(date);
 
   return {
