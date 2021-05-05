@@ -58,9 +58,8 @@ const isInElementRange = ({
 
 const getLunarElement = ({
   date,
-  hemisphere,
   exact,
-}: GetElement): Calendars['lunar'] => {
+}: Omit<GetElement, 'hemisphere'>): Calendars['lunar'] => {
   const notExactDay = new Date(date);
   notExactDay.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 

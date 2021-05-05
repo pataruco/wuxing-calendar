@@ -9,7 +9,7 @@ const getElements = ({
   exact = false,
 }: GetElement): Calendars => {
   const solar = getSolarElement({ date, hemisphere, exact });
-  const lunar = getLunarElement({ date, hemisphere, exact });
+  const lunar = getLunarElement({ date, exact });
   const hour = getHourElement(date);
 
   return {
