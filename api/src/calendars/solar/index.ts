@@ -46,8 +46,10 @@ const getSolarElement = ({
   hemisphere,
   exact,
 }: GetElement): Calendars['solar'] => {
-  const newDate = new Date(date);
-  newDate.setUTCHours(0, 0, 0, 0); // Set beginning of the day
+  const notExactDay = new Date(date);
+  notExactDay.setUTCHours(0, 0, 0, 0); // Set beginning of the day
+
+  const exactDay = new Date(date);
 
   const isInElementRange = (seasonDate: Date): boolean => {
     seasonDate.setUTCHours(0, 0, 0, 0);
@@ -57,7 +59,9 @@ const getSolarElement = ({
     );
   };
 
-  const seasons = Seasons((date as unknown) as AstroTime);
+  const newDate = exact ? exactDay : notExactDay;
+
+  const seasons = Seasons((newDate as unknown) as AstroTime);
   const {
     mar_equinox: { date: marchEquinox },
     jun_solstice: { date: juneEquinox },

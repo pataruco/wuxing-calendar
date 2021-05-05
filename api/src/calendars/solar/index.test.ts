@@ -8,17 +8,33 @@ describe(getSolarElement, () => {
   const firstOfMay = new Date('2021-05-01');
 
   describe('NORTHERN hemisphere', () => {
-    test.each`
-      date                | expected
-      ${juneSolstice}     | ${'FIRE'}
-      ${decemberSolstice} | ${'WATER'}
-      ${marchEquinox}     | ${'WOOD'}
-      ${septemberEquinox} | ${'METAL'}
-      ${firstOfMay}       | ${'EARTH'}
-    `('returns $expected when date is $date', ({ date, expected }) => {
-      expect(
-        getSolarElement({ date, hemisphere: 'NORTHERN', exact: false }),
-      ).toBe(expected);
+    describe('NOT accurate', () => {
+      test.each`
+        date                | expected
+        ${juneSolstice}     | ${'FIRE'}
+        ${decemberSolstice} | ${'WATER'}
+        ${marchEquinox}     | ${'WOOD'}
+        ${septemberEquinox} | ${'METAL'}
+        ${firstOfMay}       | ${'EARTH'}
+      `('returns $expected when date is $date', ({ date, expected }) => {
+        expect(
+          getSolarElement({ date, hemisphere: 'NORTHERN', exact: false }),
+        ).toBe(expected);
+      });
+    });
+    describe('accurate', () => {
+      test.each`
+        date                | expected
+        ${juneSolstice}     | ${'FIRE'}
+        ${decemberSolstice} | ${'WATER'}
+        ${marchEquinox}     | ${'WOOD'}
+        ${septemberEquinox} | ${'METAL'}
+        ${firstOfMay}       | ${'EARTH'}
+      `('returns $expected when date is $date', ({ date, expected }) => {
+        expect(
+          getSolarElement({ date, hemisphere: 'NORTHERN', exact: true }),
+        ).toBe(expected);
+      });
     });
   });
 });
