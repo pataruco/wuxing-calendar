@@ -1,7 +1,7 @@
 import { MoonPhase } from 'astronomy-engine';
 
 import '../../lib/date';
-import { GetElements } from '../../../@types';
+import { GetElement, Calendars } from '../../../@types';
 
 const DAYS_RANGE = 2;
 
@@ -28,7 +28,11 @@ const isInElementRange = ({
   moonPhaseDegrees >= rangeStart - (DAYS_RANGE + 1) * DEGREES_PER_DAY &&
   moonPhaseDegrees <= rangeStart + DAYS_RANGE * DEGREES_PER_DAY;
 
-const getLunarElement = (date: Date): GetElements['lunar'] => {
+const getLunarElement = ({
+  date,
+  hemisphere,
+  exact,
+}: GetElement): Calendars['lunar'] => {
   const newDate = new Date(date);
   newDate.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 

@@ -1,7 +1,7 @@
 import { Seasons, AstroTime } from 'astronomy-engine';
 
 import '../../lib/date';
-import { GetElements } from '../../../@types';
+import { GetElement, Calendars } from '../../../@types';
 
 const DAYS_RANGE = 36;
 
@@ -41,7 +41,11 @@ const isInWaterRange = (date: Date): boolean => {
   );
 };
 
-const getSolarElement = (date: Date): GetElements['solar'] => {
+const getSolarElement = ({
+  date,
+  hemisphere,
+  exact,
+}: GetElement): Calendars['solar'] => {
   const newDate = new Date(date);
   newDate.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 

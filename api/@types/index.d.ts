@@ -6,4 +6,4 @@ declare global {
   }
 }
 
-export { Element, GetElements } from './element';
+export { Calendars, Element, GetElement, Hemisphere } from './element';
