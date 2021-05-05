@@ -43,7 +43,7 @@ const isInWaterRange = (date: Date): boolean => {
 
 const getSolarElement = ({
   date,
-  hemisphere,
+  hemisphere = 'NORTHERN',
   exact,
 }: GetElement): Calendars['solar'] => {
   const notExactDay = new Date(date);
@@ -70,13 +70,13 @@ const getSolarElement = ({
 
   switch (true) {
     case isInElementRange(marchEquinox):
-      return 'WOOD';
+      return hemisphere === 'NORTHERN' ? 'WOOD' : 'METAL';
     case isInElementRange(juneEquinox):
-      return 'FIRE';
+      return hemisphere === 'NORTHERN' ? 'FIRE' : 'WATER';
     case isInElementRange(septemberEquinox):
-      return 'METAL';
+      return hemisphere === 'NORTHERN' ? 'METAL' : 'WOOD';
     case isInWaterRange(newDate):
-      return 'WATER';
+      return hemisphere === 'NORTHERN' ? 'WATER' : 'FIRE';
     default:
       return 'EARTH';
   }

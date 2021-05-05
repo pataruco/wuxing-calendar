@@ -37,4 +37,35 @@ describe(getSolarElement, () => {
       });
     });
   });
+
+  describe('SOUTHERN hemisphere', () => {
+    describe('NOT accurate', () => {
+      test.each`
+        date                | expected
+        ${juneSolstice}     | ${'WATER'}
+        ${decemberSolstice} | ${'FIRE'}
+        ${marchEquinox}     | ${'METAL'}
+        ${septemberEquinox} | ${'WOOD'}
+        ${firstOfMay}       | ${'EARTH'}
+      `('returns $expected when date is $date', ({ date, expected }) => {
+        expect(
+          getSolarElement({ date, hemisphere: 'SOUTHERN', exact: false }),
+        ).toBe(expected);
+      });
+    });
+    describe('accurate', () => {
+      test.each`
+        date                | expected
+        ${juneSolstice}     | ${'WATER'}
+        ${decemberSolstice} | ${'FIRE'}
+        ${marchEquinox}     | ${'METAL'}
+        ${septemberEquinox} | ${'WOOD'}
+        ${firstOfMay}       | ${'EARTH'}
+      `('returns $expected when date is $date', ({ date, expected }) => {
+        expect(
+          getSolarElement({ date, hemisphere: 'SOUTHERN', exact: true }),
+        ).toBe(expected);
+      });
+    });
+  });
 });
