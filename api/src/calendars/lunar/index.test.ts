@@ -9,18 +9,35 @@ describe(getLunarElement, () => {
   const fourthOfDecember = new Date('2021-12-04');
 
   describe('NORTHERN hemisphere', () => {
-    test.each`
-      date                | expected
-      ${juneSolstice}     | ${'EARTH'}
-      ${decemberSolstice} | ${'FIRE'}
-      ${marchEquinox}     | ${'WOOD'}
-      ${septemberEquinox} | ${'FIRE'}
-      ${firstOfMay}       | ${'METAL'}
-      ${fourthOfDecember} | ${'WATER'}
-    `('returns $expected when date is $date', ({ date, expected }) => {
-      expect(
-        getLunarElement({ date, exact: false, hemisphere: 'NORTHERN' }),
-      ).toBe(expected);
+    describe('NOT accurate', () => {
+      test.each`
+        date                | expected
+        ${juneSolstice}     | ${'EARTH'}
+        ${decemberSolstice} | ${'FIRE'}
+        ${marchEquinox}     | ${'WOOD'}
+        ${septemberEquinox} | ${'FIRE'}
+        ${firstOfMay}       | ${'METAL'}
+        ${fourthOfDecember} | ${'WATER'}
+      `('returns $expected when date is $date', ({ date, expected }) => {
+        expect(
+          getLunarElement({ date, exact: false, hemisphere: 'NORTHERN' }),
+        ).toBe(expected);
+      });
+    });
+    describe('accurate', () => {
+      test.each`
+        date                | expected
+        ${juneSolstice}     | ${'EARTH'}
+        ${decemberSolstice} | ${'FIRE'}
+        ${marchEquinox}     | ${'WOOD'}
+        ${septemberEquinox} | ${'FIRE'}
+        ${firstOfMay}       | ${'EARTH'}
+        ${fourthOfDecember} | ${'WATER'}
+      `('returns $expected when date is $date', ({ date, expected }) => {
+        expect(
+          getLunarElement({ date, exact: true, hemisphere: 'NORTHERN' }),
+        ).toBe(expected);
+      });
     });
   });
 });
