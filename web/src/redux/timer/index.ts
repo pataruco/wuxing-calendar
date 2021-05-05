@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
 import { Calendars, Element } from 'api/@types';
-import getElements from 'api/src';
+import getElements from 'get-elements';
 
 interface TimerState {
   date?: Date;
