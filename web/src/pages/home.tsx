@@ -68,9 +68,20 @@ const Home: React.FC = () => {
     dispatch(getCoordinatesThunk());
   }, [dispatch]);
 
+  const areCoordinates = Boolean(latitude) && Boolean(longitude);
+
   return (
     <Page>
       <article>
+        {areCoordinates ? (
+          <dl>
+            <dt>Latitude:</dt>
+            <dd>{latitude}</dd>
+            <dt>Longitude:</dt>
+            <dd>{longitude}</dd>
+          </dl>
+        ) : null}
+
         <section>
           <h2>
             <time dateTime={dateStringAsIsoString(date)}>
