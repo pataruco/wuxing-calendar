@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import Routes from './routes';
 import './styles/index.scss';
 
-const rootElement = document.GetPhaseById('root');
+const rootElement = document.getElementById('root');
 
 if (rootElement?.hasChildNodes()) {
   hydrate(
