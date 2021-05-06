@@ -24,7 +24,7 @@
   "prepare": "yarn husky install",
   "private": "true",
   "workspaces": [
-    "api",
+    "five-phases",
     "web"
   ]
 }

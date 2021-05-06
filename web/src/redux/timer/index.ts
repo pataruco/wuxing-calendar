@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from '../store';
-import { Calendars, Element } from 'api/@types';
-import getElements from 'get-elements';
+import { Calendars, Element } from 'five-phases/@types';
+import GetPhases from 'five-phases';
 
 interface TimerState {
   date?: Date;
@@ -16,7 +16,7 @@ interface CalendarDate extends Calendars {
 
 const getTimeAndCalendars = (): CalendarDate => {
   const date = new Date();
-  const { solar, lunar, hour } = getElements({
+  const { solar, lunar, hour } = GetPhases({
     date,
     exact: true,
     hemisphere: 'NORTHERN',

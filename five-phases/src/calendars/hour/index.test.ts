@@ -1,6 +1,6 @@
-import getHourElement from './index';
+import getHourPhase from './index';
 
-describe(getHourElement, () => {
+describe(getHourPhase, () => {
   const date = new Date();
   const sixAm = date.setHours(6, 0, 0);
   const twelveM = date.setHours(12, 0, 0);
@@ -16,7 +16,7 @@ describe(getHourElement, () => {
     ${twelveAM} | ${'WATER'}
     ${threePM}  | ${'EARTH'}
   `('returns $expected when date is $date', ({ date, expected }) => {
-    expect(getHourElement(date)).toBe(expected);
+    expect(getHourPhase(date)).toBe(expected);
   });
 });
 
