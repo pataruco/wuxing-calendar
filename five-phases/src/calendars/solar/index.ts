@@ -1,7 +1,7 @@
 import { Seasons, AstroTime } from 'astronomy-engine';
 
 import '../../lib/date';
-import { GetElement, Calendars } from '../../../@types';
+import { GetPhase, Calendars } from '../../../@types';
 
 const DAYS_RANGE = 36;
 
@@ -41,17 +41,17 @@ const isInWaterRange = (date: Date): boolean => {
   );
 };
 
-const getSolarElement = ({
+const getSolarPhase = ({
   date,
   hemisphere = 'NORTHERN',
   exact,
-}: GetElement): Calendars['solar'] => {
+}: GetPhase): Calendars['solar'] => {
   const notExactDay = new Date(date);
   notExactDay.setUTCHours(0, 0, 0, 0); // Set beginning of the day
 
   const exactDay = new Date(date);
 
-  const isInElementRange = (seasonDate: Date): boolean => {
+  const isInPhaseRange = (seasonDate: Date): boolean => {
     seasonDate.setUTCHours(0, 0, 0, 0);
     return (
       newDate >= seasonDate.substractDays(DAYS_RANGE) &&
@@ -69,11 +69,11 @@ const getSolarElement = ({
   } = seasons;
 
   switch (true) {
-    case isInElementRange(marchEquinox):
+    case isInPhaseRange(marchEquinox):
       return hemisphere === 'NORTHERN' ? 'WOOD' : 'METAL';
-    case isInElementRange(juneEquinox):
+    case isInPhaseRange(juneEquinox):
       return hemisphere === 'NORTHERN' ? 'FIRE' : 'WATER';
-    case isInElementRange(septemberEquinox):
+    case isInPhaseRange(septemberEquinox):
       return hemisphere === 'NORTHERN' ? 'METAL' : 'WOOD';
     case isInWaterRange(newDate):
       return hemisphere === 'NORTHERN' ? 'WATER' : 'FIRE';
@@ -82,4 +82,4 @@ const getSolarElement = ({
   }
 };
 
-export default getSolarElement;
+export default getSolarPhase;

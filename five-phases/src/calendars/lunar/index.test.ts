@@ -1,6 +1,6 @@
-import getLunarElement from './index';
+import getLunarPhase from './index';
 
-describe(getLunarElement, () => {
+describe(getLunarPhase, () => {
   const juneSolstice = new Date('2021-06-21');
   const decemberSolstice = new Date('2021-12-21');
   const marchEquinox = new Date('2021-03-21');
@@ -18,7 +18,7 @@ describe(getLunarElement, () => {
       ${firstOfMay}       | ${'METAL'}
       ${fourthOfDecember} | ${'WATER'}
     `('returns $expected when date is $date', ({ date, expected }) => {
-      expect(getLunarElement({ date, exact: false })).toBe(expected);
+      expect(getLunarPhase({ date, exact: false })).toBe(expected);
     });
   });
 
@@ -32,7 +32,7 @@ describe(getLunarElement, () => {
       ${firstOfMay}       | ${'EARTH'}
       ${fourthOfDecember} | ${'WATER'}
     `('returns $expected when date is $date', ({ date, expected }) => {
-      expect(getLunarElement({ date, exact: true })).toBe(expected);
+      expect(getLunarPhase({ date, exact: true })).toBe(expected);
     });
   });
 });

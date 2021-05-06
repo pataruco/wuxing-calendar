@@ -11,12 +11,14 @@
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
-  "name": "api",
-  "version": "1.0.0",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "name": "five-phases",
   "scripts": {
+    "build": "rm -rf ./dist && tsc",
+    "postinstall": "yarn build",
     "test": "jest"
   },
   "typings": "./dist/index.d.ts",
-  "main": "./dist/index.js"
+  "version": "1.0.0"
 }

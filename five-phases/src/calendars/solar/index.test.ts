@@ -1,6 +1,6 @@
-import getSolarElement from './index';
+import getSolarPhase from './index';
 
-describe(getSolarElement, () => {
+describe(getSolarPhase, () => {
   const juneSolstice = new Date('2021-06-21');
   const decemberSolstice = new Date('2021-12-21');
   const marchEquinox = new Date('2021-03-21');
@@ -18,7 +18,7 @@ describe(getSolarElement, () => {
         ${firstOfMay}       | ${'EARTH'}
       `('returns $expected when date is $date', ({ date, expected }) => {
         expect(
-          getSolarElement({ date, hemisphere: 'NORTHERN', exact: false }),
+          getSolarPhase({ date, hemisphere: 'NORTHERN', exact: false }),
         ).toBe(expected);
       });
     });
@@ -32,7 +32,7 @@ describe(getSolarElement, () => {
         ${firstOfMay}       | ${'EARTH'}
       `('returns $expected when date is $date', ({ date, expected }) => {
         expect(
-          getSolarElement({ date, hemisphere: 'NORTHERN', exact: true }),
+          getSolarPhase({ date, hemisphere: 'NORTHERN', exact: true }),
         ).toBe(expected);
       });
     });
@@ -49,7 +49,7 @@ describe(getSolarElement, () => {
         ${firstOfMay}       | ${'EARTH'}
       `('returns $expected when date is $date', ({ date, expected }) => {
         expect(
-          getSolarElement({ date, hemisphere: 'SOUTHERN', exact: false }),
+          getSolarPhase({ date, hemisphere: 'SOUTHERN', exact: false }),
         ).toBe(expected);
       });
     });
@@ -63,7 +63,7 @@ describe(getSolarElement, () => {
         ${firstOfMay}       | ${'EARTH'}
       `('returns $expected when date is $date', ({ date, expected }) => {
         expect(
-          getSolarElement({ date, hemisphere: 'SOUTHERN', exact: true }),
+          getSolarPhase({ date, hemisphere: 'SOUTHERN', exact: true }),
         ).toBe(expected);
       });
     });
