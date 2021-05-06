@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Page from '../components/page';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectTimer, setTimeAndCalendars } from '../redux/timer';
+import { getCoordinatesThunk } from '../redux/timer/actions';
 
 interface DateText {
   dateString: string;
@@ -41,7 +42,17 @@ const PhaseLabel: React.FC<PhaseLabelProp> = ({ phase }) => {
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { date, solar, lunar, hour } = useAppSelector(selectTimer);
+  const {
+    date,
+    solar,
+    lunar,
+    hour,
+    latitude,
+    longitude,
+    hemisphere,
+  } = useAppSelector(selectTimer);
+
+  console.log({ date, solar, lunar, hour, latitude, longitude, hemisphere });
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -53,6 +64,10 @@ const Home: React.FC = () => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getCoordinatesThunk());
+  }, [dispatch]);
+
   return (
     <Page>
       <article>
@@ -62,7 +77,7 @@ const Home: React.FC = () => {
               {dateText({ dateString: date, options: dayOptions })}
             </time>
           </h2>
-          <PhaseLabel phase={solar} />
+          {solar ? <PhaseLabel phase={solar} /> : null}
         </section>
         <section>
           <h1>
@@ -70,14 +85,14 @@ const Home: React.FC = () => {
               {dateText({ dateString: date, options: timeOptions })}
             </time>
           </h1>
-          <PhaseLabel phase={hour} />
+          {hour ? <PhaseLabel phase={hour} /> : null}
         </section>
         <section>
           <picture>
             <img src="" alt="" />
           </picture>
           <h2>Moon phase</h2>
-          <PhaseLabel phase={lunar} />
+          {lunar ? <PhaseLabel phase={lunar} /> : null}
         </section>
       </article>
     </Page>

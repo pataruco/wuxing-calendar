@@ -1,34 +1,27 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Phase, Hemisphere } from 'five-phases/@types';
+import { createSlice } from '@reduxjs/toolkit';
+
+import { getCoordinatesThunk, getTimeAndCalendars } from './actions';
 import { RootState, AppThunk } from '../store';
-import { Calendars, Element } from 'five-phases/@types';
-import GetPhases from 'five-phases';
 
 interface TimerState {
   date: string;
-  lunar?: Element;
-  solar?: Element;
-  hour?: Element;
+  lunar?: Phase;
+  solar?: Phase;
+  hour?: Phase;
+  latitude?: number;
+  longitude?: number;
+  hemisphere: Hemisphere;
 }
-
-interface CalendarDate extends Calendars {
-  date: Date;
-}
-
-const getTimeAndCalendars = (): CalendarDate => {
-  const date = new Date();
-  const { solar, lunar, hour } = GetPhases({
-    date,
-    exact: true,
-    hemisphere: 'NORTHERN',
-  });
-  return { solar, lunar, hour, date };
-};
 
 const initialState: TimerState = {
   date: new Date().toString(),
   lunar: undefined,
   solar: undefined,
   hour: undefined,
+  latitude: undefined,
+  longitude: undefined,
+  hemisphere: 'NORTHERN',
 };
 
 export const timerSlice = createSlice({
@@ -44,16 +37,34 @@ export const timerSlice = createSlice({
       state.date = date;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(
+        getCoordinatesThunk.fulfilled,
+        (state, { payload: { latitude, longitude } }) => {
+          state.latitude = latitude;
+          state.longitude = longitude;
+          state.hemisphere = latitude > 0 ? 'NORTHERN' : 'SOUTHERN';
+        },
+      )
+      .addCase(getCoordinatesThunk.rejected, (state) => {
+        state.latitude = undefined;
+        state.longitude = undefined;
+        state.hemisphere = 'NORTHERN';
+      });
+  },
 });
 
 export const { setCalendars, setDate } = timerSlice.actions;
 
 export const selectTimer = (state: RootState) => state.timer;
 
-export const setTimeAndCalendars = (): AppThunk => (dispatch, _getState) => {
-  const { solar, lunar, hour, date } = getTimeAndCalendars();
+export default timerSlice.reducer;
+
+export const setTimeAndCalendars = (): AppThunk => (dispatch, getState) => {
+  const { hemisphere } = selectTimer(getState());
+
+  const { solar, lunar, hour, date } = getTimeAndCalendars({ hemisphere });
   dispatch(setCalendars({ solar, lunar, hour }));
   dispatch(setDate({ date: date.toString() }));
 };
-
-export default timerSlice.reducer;
