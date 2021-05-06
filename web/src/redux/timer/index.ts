@@ -4,7 +4,7 @@ import { Calendars, Element } from 'five-phases/@types';
 import GetPhases from 'five-phases';
 
 interface TimerState {
-  date?: Date;
+  date: string;
   lunar?: Element;
   solar?: Element;
   hour?: Element;
@@ -25,7 +25,7 @@ const getTimeAndCalendars = (): CalendarDate => {
 };
 
 const initialState: TimerState = {
-  date: undefined,
+  date: new Date().toString(),
   lunar: undefined,
   solar: undefined,
   hour: undefined,
@@ -53,7 +53,7 @@ export const selectTimer = (state: RootState) => state.timer;
 export const setTimeAndCalendars = (): AppThunk => (dispatch, _getState) => {
   const { solar, lunar, hour, date } = getTimeAndCalendars();
   dispatch(setCalendars({ solar, lunar, hour }));
-  dispatch(setDate({ date }));
+  dispatch(setDate({ date: date.toString() }));
 };
 
 export default timerSlice.reducer;
