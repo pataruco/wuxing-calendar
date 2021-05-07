@@ -1,9 +1,5 @@
-import { AppThunk } from '../store';
-import { selectTimer } from '../timer';
+import { EventInput, EventSourceFunc } from '@fullcalendar/react';
 import GetPhases from 'five-phases';
-import { EventInput } from '@fullcalendar/react';
-
-import { addEvents } from './index';
 
 interface GetCalendarPhases {
   start: Date;
@@ -23,15 +19,13 @@ const getDates = ({ start, end }: GetCalendarPhases): Date[] => {
 export const getCalendarPhases = ({
   start,
   end,
-}: GetCalendarPhases): AppThunk => (dispatch, getState) => {
-  const { hemisphere } = selectTimer(getState());
-
+}: GetCalendarPhases): EventInput[] => {
   const dates = getDates({ start, end });
   const eventPhases: EventInput[] = dates.map((date) => {
     const { solar, lunar, hour } = GetPhases({
       date,
       exact: false,
-      hemisphere,
+      hemisphere: 'NORTHERN',
     });
 
     return {
@@ -40,6 +34,11 @@ export const getCalendarPhases = ({
       classNames: ['solar', solar],
     };
   });
+  return eventPhases;
+};
 
-  dispatch(addEvents(eventPhases));
+export const getEvents: EventSourceFunc = (fetchInfo, successCallback) => {
+  const { start, end } = fetchInfo;
+  const events = getCalendarPhases({ start, end });
+  successCallback(events);
 };
