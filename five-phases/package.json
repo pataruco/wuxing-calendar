@@ -15,9 +15,10 @@
   "main": "./dist/index.js",
   "name": "five-phases",
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
-    "postinstall": "yarn build",
-    "test": "jest"
+    "build": "tsc",
+    "postinstall": "tsc",
+    "test": "jest",
+    "tsc": "tsc"
   },
   "typings": "./dist/index.d.ts",
   "version": "1.0.0"
