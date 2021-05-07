@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Calendars, Hemisphere } from 'five-phases/@types';
+import { Calendars, GetPhase, Hemisphere } from 'five-phases/@types';
 import GetPhases from 'five-phases';
 
 interface CalendarDate extends Calendars {
@@ -8,15 +8,17 @@ interface CalendarDate extends Calendars {
 
 interface GetTimeAndCalendarsParams {
   hemisphere: Hemisphere;
+  exact?: GetPhase['exact'];
 }
 
 export const getTimeAndCalendars = ({
   hemisphere,
+  exact = true,
 }: GetTimeAndCalendarsParams): CalendarDate => {
   const date = new Date();
   const { solar, lunar, hour } = GetPhases({
     date,
-    exact: true,
+    exact,
     hemisphere,
   });
   return { solar, lunar, hour, date };
