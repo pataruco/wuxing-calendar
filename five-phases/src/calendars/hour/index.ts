@@ -1,4 +1,4 @@
-import { Element } from '../../../@types';
+import { Phase } from '../../../@types';
 
 const getHourAsFloat = (date: Date): number =>
   date.getHours() + date.getMinutes() / 60;
@@ -47,7 +47,7 @@ const isInWaterRange = (date: Date) => {
   );
 };
 
-const getHourPhase = (date: Date): Element => {
+const getHourPhase = (date: Date): Phase => {
   const newDate = new Date(date); // Date Mutate when is called from getLunar and get Solar
 
   switch (true) {

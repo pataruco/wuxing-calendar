@@ -73,5 +73,5 @@
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["./src/**/*.test.ts", "./jest.config.ts"]
+  "exclude": ["./src/**/*.test.ts", "./jest.config.ts", "./dist"]
 }
