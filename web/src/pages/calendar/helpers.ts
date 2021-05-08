@@ -54,8 +54,10 @@ const geLunarPhases = (date: Date): EventInput => {
     hemisphere,
   });
 
+  const { emoji } = getMoonPhase(date);
+
   return {
-    title: `${getMoonPhase(date)} ${capitalize(lunar)}`,
+    title: `${emoji} ${capitalize(lunar)}`,
     start: date,
     classNames: ['lunar', lunar.toLowerCase()],
     allDay: true,

@@ -4,7 +4,12 @@ import { getUserLocales } from './get-locale';
 export const capitalize = (string: string): string =>
   string.charAt(0) + string.slice(1).toLowerCase();
 
-export const getMoonPhase = (date: Date): string => {
+interface MoonPhaseInfo {
+  emoji: string;
+  text: string;
+}
+
+export const getMoonPhase = (date: Date): MoonPhaseInfo => {
   /*
 🌑  New moon = 0
 🌒  Waxing crescent moon
@@ -15,26 +20,54 @@ export const getMoonPhase = (date: Date): string => {
 🌗  Last quarter moon = 270
 🌘  Waning crescent moon
 */
+
   const moonPhase = MoonPhase(date);
   switch (true) {
     case moonPhase >= 0 && moonPhase < 45:
-      return '🌑';
+      return {
+        emoji: '🌑',
+        text: 'New Moon',
+      };
     case moonPhase >= 45 && moonPhase < 90:
-      return '🌒';
+      return {
+        emoji: '🌒',
+        text: 'Waxing crescent moon',
+      };
     case moonPhase >= 90 && moonPhase < 135:
-      return '🌓';
+      return {
+        emoji: '🌓',
+        text: 'First quater moon',
+      };
     case moonPhase >= 135 && moonPhase < 180:
-      return '🌔';
+      return {
+        emoji: '🌔',
+        text: 'Waxing gibbous moon',
+      };
     case moonPhase >= 180 && moonPhase < 225:
-      return '🌕';
+      return {
+        emoji: '🌕',
+        text: 'Full moon',
+      };
     case moonPhase >= 225 && moonPhase < 270:
-      return '🌖';
+      return {
+        emoji: '🌖',
+        text: 'Waning gibbous moon',
+      };
     case moonPhase >= 270 && moonPhase < 315:
-      return '🌗';
+      return {
+        emoji: '🌗',
+        text: 'Last quarter moon',
+      };
     case moonPhase >= 315 && moonPhase < 359:
-      return '🌘';
+      return {
+        emoji: '🌘',
+        text: 'Waning crescent moon',
+      };
     default:
-      return '🌝';
+      return {
+        emoji: '🌝',
+        text: '',
+      };
   }
 };
 
@@ -62,4 +95,29 @@ export const timeOptions: Intl.DateTimeFormatOptions = {
   hour12: true,
   hour: 'numeric',
   minute: 'numeric',
+};
+
+const toDegreesMinutesAndSeconds = (coordinate: number) => {
+  const absolute = Math.abs(coordinate);
+  const degrees = Math.floor(absolute);
+  const minutesNotTruncated = (absolute - degrees) * 60;
+  const minutes = Math.floor(minutesNotTruncated);
+  const seconds = Math.floor((minutesNotTruncated - minutes) * 60);
+
+  return `${degrees}° ${minutes}′ ${seconds}″`;
+};
+
+interface ConvertDMSProps {
+  lat: number;
+  lng: number;
+}
+
+export const convertToDMS = ({ lat, lng }: ConvertDMSProps) => {
+  const latitude = toDegreesMinutesAndSeconds(lat);
+  const latitudeCardinal = lat >= 0 ? 'N' : 'S';
+
+  const longitude = toDegreesMinutesAndSeconds(lng);
+  const longitudeCardinal = lng >= 0 ? 'E' : 'W';
+
+  return `${latitude} ${latitudeCardinal}, ${longitude} ${longitudeCardinal}`;
 };
