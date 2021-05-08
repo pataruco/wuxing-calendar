@@ -1,4 +1,5 @@
 import GetPhases from 'five-phases';
+import { Seasons, AstroTime } from 'astronomy-engine';
 import {
   EventInput,
   EventSourceFunc,
@@ -31,7 +32,7 @@ const getSolarPhases = (date: Date): EventInput => {
 
   const { solar } = GetPhases({
     date,
-    exact: false,
+    exact: true,
     hemisphere,
   });
 
@@ -76,10 +77,44 @@ export const getCalendarPhases = ({
   return [...solarEventphases, ...lunarEventphases];
 };
 
+const getSolsticesAndEquinoxEvents = (date: Date): EventInput[] => {
+  const seasons = Seasons((date as unknown) as AstroTime);
+  const {
+    mar_equinox: { date: marchEquinox },
+    jun_solstice: { date: juneSolstice },
+    sep_equinox: { date: septemberEquinox },
+    dec_solstice: { date: decemberSolstice },
+  } = seasons;
+
+  return [
+    {
+      title: `🌄  March equinox`,
+      start: marchEquinox,
+      classNames: ['equinox'],
+    },
+    {
+      title: `🌅 June solstice`,
+      start: juneSolstice,
+      classNames: ['solstice'],
+    },
+    {
+      title: `🌄  September equinox`,
+      start: septemberEquinox,
+      classNames: ['equinox'],
+    },
+    {
+      title: `🌅  December solstice`,
+      start: decemberSolstice,
+      classNames: ['solstice'],
+    },
+  ];
+};
+
 export const getEvents: EventSourceFunc = (fetchInfo, successCallback) => {
   const { start, end } = fetchInfo;
+  const solticeEquinoxEvents = getSolsticesAndEquinoxEvents(start);
   const events = getCalendarPhases({ start, end });
-  successCallback(events);
+  successCallback([...events, ...solticeEquinoxEvents]);
 };
 
 export const eventSources: EventSourceInput[] = [

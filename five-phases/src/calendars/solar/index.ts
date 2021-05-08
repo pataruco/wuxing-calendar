@@ -64,14 +64,14 @@ const getSolarPhase = ({
   const seasons = Seasons((newDate as unknown) as AstroTime);
   const {
     mar_equinox: { date: marchEquinox },
-    jun_solstice: { date: juneEquinox },
+    jun_solstice: { date: juneSolstice },
     sep_equinox: { date: septemberEquinox },
   } = seasons;
 
   switch (true) {
     case isInPhaseRange(marchEquinox):
       return hemisphere === 'NORTHERN' ? 'WOOD' : 'METAL';
-    case isInPhaseRange(juneEquinox):
+    case isInPhaseRange(juneSolstice):
       return hemisphere === 'NORTHERN' ? 'FIRE' : 'WATER';
     case isInPhaseRange(septemberEquinox):
       return hemisphere === 'NORTHERN' ? 'METAL' : 'WOOD';
