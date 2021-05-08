@@ -2,6 +2,7 @@ import { Phase } from 'five-phases/@types/phase';
 import React, { useEffect } from 'react';
 
 import Page from '../components/page';
+import { capitalize, getMoonPhase } from '../lib/helpers';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { selectTimer, setTimeAndCalendars } from '../redux/timer';
 import { getCoordinatesThunk } from '../redux/timer/actions';
@@ -35,24 +36,18 @@ interface PhaseLabelProp {
 
 const PhaseLabel: React.FC<PhaseLabelProp> = ({ phase }) => {
   const classNameString = phase.toLowerCase();
-  const phaseString = `${phase.charAt(0)}${phase.slice(1).toLowerCase()}`;
+  const phaseString = capitalize(phase);
 
   return <p className={classNameString}>{phaseString}</p>;
 };
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
-  const {
-    date,
-    solar,
-    lunar,
-    hour,
-    latitude,
-    longitude,
-    hemisphere,
-  } = useAppSelector(selectTimer);
+  const { date, solar, lunar, hour, latitude, longitude } = useAppSelector(
+    selectTimer,
+  );
 
-  console.log({ date, solar, lunar, hour, latitude, longitude, hemisphere });
+  const areCoordinates = Boolean(latitude) && Boolean(longitude);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -65,10 +60,10 @@ const Home: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getCoordinatesThunk());
-  }, [dispatch]);
-
-  const areCoordinates = Boolean(latitude) && Boolean(longitude);
+    if (!areCoordinates) {
+      dispatch(getCoordinatesThunk());
+    }
+  }, [areCoordinates, dispatch]);
 
   return (
     <Page>
@@ -99,9 +94,9 @@ const Home: React.FC = () => {
           {hour ? <PhaseLabel phase={hour} /> : null}
         </section>
         <section>
-          <picture>
-            <img src="" alt="" />
-          </picture>
+          <p>
+            <span role="img">{getMoonPhase(new Date(date))}</span>
+          </p>
           <h2>Moon phase</h2>
           {lunar ? <PhaseLabel phase={lunar} /> : null}
         </section>
