@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Coordinates from '../coordinates';
+
 const StyledFooter = styled.footer`
   background-color: var(--black);
   padding: 1.25rem;
@@ -54,6 +56,7 @@ const Footer: React.FC = () => (
       </a>{' '}
       {new Date().getFullYear()}
     </p>
+    <Coordinates />
   </StyledFooter>
 );
 

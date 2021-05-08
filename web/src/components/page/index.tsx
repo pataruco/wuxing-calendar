@@ -15,10 +15,14 @@ const StyledPage = styled.div`
     padding: 1.25rem;
   }
 `;
+interface PagePros {
+  className?: string;
+  children: React.ReactNode;
+}
 
-const Page: React.FC = ({ children }) => {
+const Page: React.FC<PagePros> = ({ className, children }) => {
   return (
-    <StyledPage>
+    <StyledPage className={className}>
       <Header />
       <main role="main">{children}</main>
       <Footer />
