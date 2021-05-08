@@ -8,14 +8,11 @@ import {
 import { capitalize, getMoonPhase } from '../../lib/helpers';
 import { store } from '../../redux/store';
 
-const {
-  timer: { hemisphere },
-} = store.getState();
-
 interface GetCalendarPhases {
   start: Date;
   end: Date;
 }
+
 const getDates = ({ start, end }: GetCalendarPhases): Date[] => {
   let dates: Date[] = [];
   //to avoid modifying the original date
@@ -28,6 +25,10 @@ const getDates = ({ start, end }: GetCalendarPhases): Date[] => {
 };
 
 const getSolarPhases = (date: Date): EventInput => {
+  const {
+    timer: { hemisphere },
+  } = store.getState();
+
   const { solar } = GetPhases({
     date,
     exact: false,
@@ -43,6 +44,10 @@ const getSolarPhases = (date: Date): EventInput => {
 };
 
 const geLunarPhases = (date: Date): EventInput => {
+  const {
+    timer: { hemisphere },
+  } = store.getState();
+
   const { lunar } = GetPhases({
     date,
     exact: false,
