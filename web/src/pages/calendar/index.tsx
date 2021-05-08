@@ -11,6 +11,7 @@ const StyledPage = styled(Page)`
   --fc-border-color: black;
   --fc-button-bg-color: black;
   --fc-button-border-color: white;
+  --fc-today-bg-color: white;
 
   .fc-daygrid-event {
     padding: 0.5rem;
@@ -36,10 +37,22 @@ const StyledPage = styled(Page)`
       background-color: var(--water);
       border-color: var(--water);
     }
+
+    &.equinox,
+    &.solstice {
+      background-color: black;
+      border-color: black;
+      color: white;
+    }
+  }
+
+  .fc-daygrid-event-dot {
+    display: none;
   }
 
   .fc-day-today {
-    box-shadow: 1px 1px 1px 1px black, -1px -1px 1px 1px black;
+    box-shadow: 1px 1px 1px 1px black, -1px -1px 1px 1px black,
+      -1px 1px 1px 1px black, 1px -1px 1px 1px black;
   }
 `;
 
