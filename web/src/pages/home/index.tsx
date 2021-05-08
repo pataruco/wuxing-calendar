@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 
 import Page from '../../components/page';
 import PhaseLabel from '../../components/phase-label';
-import { getUserLocales } from '../../lib/get-locale';
 import {
   dateStringAsIsoString,
   dateText,
