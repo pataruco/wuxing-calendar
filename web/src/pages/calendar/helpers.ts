@@ -1,5 +1,41 @@
 import { EventInput, EventSourceFunc } from '@fullcalendar/react';
 import GetPhases from 'five-phases';
+import { MoonPhase } from 'astronomy-engine';
+
+/*
+🌑  New moon = 0
+🌒  Waxing crescent moon
+🌓  First quater moon = 90
+🌔  Waxing gibbous moon
+🌕  Full moon = 180
+🌖  Waning gibbous moon
+🌗  Last quarter moon = 270
+🌘  Waning crescent moon
+*/
+
+const getMoonPhase = (date: Date): string => {
+  const moonPhase = MoonPhase(date);
+  switch (true) {
+    case moonPhase >= 0 && moonPhase < 45:
+      return '🌑';
+    case moonPhase >= 45 && moonPhase < 90:
+      return '🌒';
+    case moonPhase >= 90 && moonPhase < 135:
+      return '🌓';
+    case moonPhase >= 135 && moonPhase < 180:
+      return '🌔';
+    case moonPhase >= 180 && moonPhase < 225:
+      return '🌕';
+    case moonPhase >= 225 && moonPhase < 270:
+      return '🌖';
+    case moonPhase >= 270 && moonPhase < 315:
+      return '🌗';
+    case moonPhase >= 315 && moonPhase < 359:
+      return '🌘';
+    default:
+      return '🌝';
+  }
+};
 
 interface GetCalendarPhases {
   start: Date;
@@ -26,7 +62,8 @@ const getSolarPhases = (date: Date): EventInput => {
   return {
     title: `☀️ ${solar}`,
     start: date,
-    classNames: ['solar', solar],
+    classNames: ['solar', solar.toLowerCase()],
+    allDay: true,
   };
 };
 
@@ -38,9 +75,10 @@ const geLunarPhases = (date: Date): EventInput => {
   });
 
   return {
-    title: `🌕 ${lunar}`,
+    title: `${getMoonPhase(date)} ${lunar}`,
     start: date,
-    classNames: ['lunar', lunar],
+    classNames: ['lunar', lunar.toLowerCase()],
+    allDay: true,
   };
 };
 
