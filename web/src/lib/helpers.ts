@@ -36,3 +36,27 @@ export const getMoonPhase = (date: Date): string => {
       return '🌝';
   }
 };
+
+export const dateStringAsIsoString = (date: string) =>
+  new Date(date).toISOString();
+
+interface DateText {
+  dateString: string;
+  options: Intl.DateTimeFormatOptions;
+}
+
+export const dateText = ({ dateString, options }: DateText) =>
+  new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString));
+
+export const dayOptions: Intl.DateTimeFormatOptions = {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  weekday: 'long',
+};
+
+export const timeOptions: Intl.DateTimeFormatOptions = {
+  hour12: true,
+  hour: 'numeric',
+  minute: 'numeric',
+};
