@@ -1,10 +1,16 @@
+import GetPhases from 'five-phases';
 import {
   EventInput,
   EventSourceFunc,
   EventSourceInput,
 } from '@fullcalendar/react';
-import GetPhases from 'five-phases';
+
 import { capitalize, getMoonPhase } from '../../lib/helpers';
+import { store } from '../../redux/store';
+
+const {
+  timer: { hemisphere },
+} = store.getState();
 
 interface GetCalendarPhases {
   start: Date;
@@ -25,7 +31,7 @@ const getSolarPhases = (date: Date): EventInput => {
   const { solar } = GetPhases({
     date,
     exact: false,
-    hemisphere: 'NORTHERN',
+    hemisphere,
   });
 
   return {
@@ -40,7 +46,7 @@ const geLunarPhases = (date: Date): EventInput => {
   const { lunar } = GetPhases({
     date,
     exact: false,
-    hemisphere: 'NORTHERN',
+    hemisphere,
   });
 
   return {
