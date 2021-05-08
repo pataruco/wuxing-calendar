@@ -1,45 +1,17 @@
-import { Phase } from 'five-phases/@types/phase';
 import React, { useEffect } from 'react';
 
-import Page from '../components/page';
-import { capitalize, getMoonPhase } from '../lib/helpers';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { selectTimer, setTimeAndCalendars } from '../redux/timer';
-import { getCoordinatesThunk } from '../redux/timer/actions';
-
-interface DateText {
-  dateString: string;
-  options: Intl.DateTimeFormatOptions;
-}
-
-const dayOptions: Intl.DateTimeFormatOptions = {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  weekday: 'long',
-};
-
-const timeOptions: Intl.DateTimeFormatOptions = {
-  hour12: true,
-  hour: 'numeric',
-  minute: 'numeric',
-};
-
-const dateStringAsIsoString = (date: string) => new Date(date).toISOString();
-
-const dateText = ({ dateString, options }: DateText) =>
-  new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString));
-
-interface PhaseLabelProp {
-  phase: Phase;
-}
-
-const PhaseLabel: React.FC<PhaseLabelProp> = ({ phase }) => {
-  const classNameString = phase.toLowerCase();
-  const phaseString = capitalize(phase);
-
-  return <p className={classNameString}>{phaseString}</p>;
-};
+import Page from '../../components/page';
+import PhaseLabel from '../../components/phase-label';
+import {
+  dateStringAsIsoString,
+  dateText,
+  dayOptions,
+  getMoonPhase,
+  timeOptions,
+} from '../../lib/helpers';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { selectTimer, setTimeAndCalendars } from '../../redux/timer';
+import { getCoordinatesThunk } from '../../redux/timer/actions';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
