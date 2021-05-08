@@ -12,6 +12,7 @@ const StyledPage = styled.div`
   main {
     flex: 1 auto;
     width: 100%;
+    padding: 1.25rem;
   }
 `;
 
