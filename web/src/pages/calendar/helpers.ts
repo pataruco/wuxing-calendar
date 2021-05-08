@@ -16,25 +16,44 @@ const getDates = ({ start, end }: GetCalendarPhases): Date[] => {
   return dates;
 };
 
+const getSolarPhases = (date: Date): EventInput => {
+  const { solar } = GetPhases({
+    date,
+    exact: false,
+    hemisphere: 'NORTHERN',
+  });
+
+  return {
+    title: `☀️ ${solar}`,
+    start: date,
+    classNames: ['solar', solar],
+  };
+};
+
+const geLunarPhases = (date: Date): EventInput => {
+  const { lunar } = GetPhases({
+    date,
+    exact: false,
+    hemisphere: 'NORTHERN',
+  });
+
+  return {
+    title: `🌕 ${lunar}`,
+    start: date,
+    classNames: ['lunar', lunar],
+  };
+};
+
 export const getCalendarPhases = ({
   start,
   end,
 }: GetCalendarPhases): EventInput[] => {
   const dates = getDates({ start, end });
-  const eventPhases: EventInput[] = dates.map((date) => {
-    const { solar, lunar, hour } = GetPhases({
-      date,
-      exact: false,
-      hemisphere: 'NORTHERN',
-    });
 
-    return {
-      title: `Solar ${solar}`,
-      start: date.toISOString(),
-      classNames: ['solar', solar],
-    };
-  });
-  return eventPhases;
+  const solarEventphases: EventInput[] = dates.map(getSolarPhases);
+  const lunarEventphases: EventInput[] = dates.map(geLunarPhases);
+
+  return [...solarEventphases, ...lunarEventphases];
 };
 
 export const getEvents: EventSourceFunc = (fetchInfo, successCallback) => {
