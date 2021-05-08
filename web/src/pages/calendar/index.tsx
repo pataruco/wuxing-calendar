@@ -1,14 +1,10 @@
 import React from 'react';
-import FullCalendar, { EventSourceInput } from '@fullcalendar/react';
+import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { getEvents } from './helpers';
+import { eventSources } from './helpers';
 
 const Calendar: React.FC = () => {
-  const eventSources: EventSourceInput[] = [
-    {
-      events: getEvents,
-    },
-  ];
+  // TODO: Call phases by hemisphere
 
   return (
     <FullCalendar
