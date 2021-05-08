@@ -2,7 +2,11 @@ import { EventInput, EventSourceFunc } from '@fullcalendar/react';
 import GetPhases from 'five-phases';
 import { MoonPhase } from 'astronomy-engine';
 
-/*
+const capitalize = (string: string): string =>
+  string.charAt(0) + string.slice(1).toLowerCase();
+
+const getMoonPhase = (date: Date): string => {
+  /*
 🌑  New moon = 0
 🌒  Waxing crescent moon
 🌓  First quater moon = 90
@@ -12,8 +16,6 @@ import { MoonPhase } from 'astronomy-engine';
 🌗  Last quarter moon = 270
 🌘  Waning crescent moon
 */
-
-const getMoonPhase = (date: Date): string => {
   const moonPhase = MoonPhase(date);
   switch (true) {
     case moonPhase >= 0 && moonPhase < 45:
@@ -60,7 +62,7 @@ const getSolarPhases = (date: Date): EventInput => {
   });
 
   return {
-    title: `☀️ ${solar}`,
+    title: `☀️ ${capitalize(solar)}`,
     start: date,
     classNames: ['solar', solar.toLowerCase()],
     allDay: true,
@@ -75,7 +77,7 @@ const geLunarPhases = (date: Date): EventInput => {
   });
 
   return {
-    title: `${getMoonPhase(date)} ${lunar}`,
+    title: `${getMoonPhase(date)} ${capitalize(lunar)}`,
     start: date,
     classNames: ['lunar', lunar.toLowerCase()],
     allDay: true,
