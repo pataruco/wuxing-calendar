@@ -1,4 +1,5 @@
 import { MoonPhase } from 'astronomy-engine';
+import { getUserLocales } from './get-locale';
 
 export const capitalize = (string: string): string =>
   string.charAt(0) + string.slice(1).toLowerCase();
@@ -45,8 +46,10 @@ interface DateText {
   options: Intl.DateTimeFormatOptions;
 }
 
-export const dateText = ({ dateString, options }: DateText) =>
-  new Intl.DateTimeFormat('en-GB', options).format(new Date(dateString));
+export const dateText = ({ dateString, options }: DateText) => {
+  const [locale] = getUserLocales();
+  return new Intl.DateTimeFormat(locale, options).format(new Date(dateString));
+};
 
 export const dayOptions: Intl.DateTimeFormatOptions = {
   day: 'numeric',

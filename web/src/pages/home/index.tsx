@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import Page from '../../components/page';
 import PhaseLabel from '../../components/phase-label';
+import { getUserLocales } from '../../lib/get-locale';
 import {
   dateStringAsIsoString,
   dateText,
@@ -15,6 +16,7 @@ import { getCoordinatesThunk } from '../../redux/timer/actions';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
+
   const { date, solar, lunar, hour, latitude, longitude } = useAppSelector(
     selectTimer,
   );
