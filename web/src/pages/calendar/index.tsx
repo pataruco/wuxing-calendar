@@ -1,5 +1,5 @@
-import dayGridPlugin from '@fullcalendar/daygrid';
 import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import React from 'react';
 
 import { eventSources } from './helpers';
