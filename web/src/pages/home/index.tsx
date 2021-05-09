@@ -21,29 +21,22 @@ const StyledPage = styled(Page)`
     align-items: center;
   }
 
-  article {
-    width: 50vw;
-  }
-
   section {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
   }
 
   h1 {
     font-size: 6rem;
-    text-align: center;
     margin: 0;
-    flex: 1;
+    margin-left: 1.25rem;
   }
 
   h2 {
     font-size: 4.5rem;
-    text-align: center;
     margin: 0;
-    flex: 1;
+    margin-left: 1.25rem;
   }
 
   p {
@@ -52,15 +45,13 @@ const StyledPage = styled(Page)`
 
   .lunar {
     div {
-      flex: 1;
+      margin-left: 1.25rem;
       p:first-of-type {
         font-size: 8rem;
-        text-align: center;
         margin: 0;
       }
 
       p:nth-of-type(2) {
-        text-align: center;
         max-width: unset;
       }
     }
@@ -98,29 +89,29 @@ const Home: React.FC = () => {
     <StyledPage>
       <article>
         <section>
+          {solar ? <PhaseLabel phase={solar} /> : null}
           <h2>
             <time dateTime={dateStringAsIsoString(date)}>
               {dateText({ dateString: date, options: dayOptions })}
             </time>
           </h2>
-          {solar ? <PhaseLabel phase={solar} /> : null}
         </section>
         <section>
+          {hour ? <PhaseLabel phase={hour} /> : null}
           <h1>
             <time dateTime={dateStringAsIsoString(date)}>
               {dateText({ dateString: date, options: timeOptions })}
             </time>
           </h1>
-          {hour ? <PhaseLabel phase={hour} /> : null}
         </section>
         <section className="lunar">
+          {lunar ? <PhaseLabel phase={lunar} /> : null}
           <div>
             <p>
               <span role="img">{emoji}</span>
             </p>
             <p>{moonPhase}</p>
           </div>
-          {lunar ? <PhaseLabel phase={lunar} /> : null}
         </section>
       </article>
     </StyledPage>
