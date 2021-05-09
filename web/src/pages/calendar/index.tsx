@@ -59,6 +59,14 @@ const StyledPage = styled(Page)`
 const Calendar: React.FC = () => {
   const [locale] = getUserLocales();
 
+  const width =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+
+  const weekday = width >= 750 ? 'long' : 'short';
+  const aspectRatio = width >= 750 ? 2.3 : undefined;
+
   return (
     <StyledPage>
       <FullCalendar
@@ -67,9 +75,9 @@ const Calendar: React.FC = () => {
         eventSources={eventSources}
         locale={locale}
         firstDay={1}
-        aspectRatio={2.5}
+        aspectRatio={aspectRatio}
         dayHeaderFormat={{
-          weekday: 'long',
+          weekday,
         }}
       />
     </StyledPage>
