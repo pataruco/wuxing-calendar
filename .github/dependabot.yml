@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: 'npm'
+    directory: '/'
+    # Check the npm registry for updates every day (weekdays)
+    schedule:
+      interval: 'weekly'
+    allow:
+      - dependency-type: 'all'
+    commit-message:
+      prefix: 'dependabot'
+    reviewers:
+      - 'pataruco'
+    labels:
+      - 'dependabot 🤖'
+
+  - package-ecosystem: 'github-actions'
+    directory: '.github/workflows'
+    schedule:
+      # Check for updates to GitHub Actions every weekday
+      interval: 'weekly'
