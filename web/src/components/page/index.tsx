@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Footer from '../footer';
+import Head from '../head';
 import Header from '../header';
 
 const StyledPage = styled.div`
@@ -23,6 +24,7 @@ interface PagePros {
 const Page: React.FC<PagePros> = ({ className, children }) => {
   return (
     <StyledPage className={className}>
+      <Head />
       <Header />
       <main role="main">{children}</main>
       <Footer />
