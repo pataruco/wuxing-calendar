@@ -1,0 +1,27 @@
+{
+  "author": "Pedro Martin <pataruco@gmail.com>",
+  "bin": {
+    "five-phases-calendar": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "tsc": "tsc"
+  },
+  "dependencies": {
+    "commander": "^7.2.0",
+    "kleur": "^4.1.4"
+  },
+  "description": "Command Line Interface for Five Phases calendar",
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  },
+  "homepage": "https://github.com/pataruco/wuxing-calendar#readme",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pataruco/wuxing-calendar.git"
+  },
+  "version": "0.0.0"
+}
