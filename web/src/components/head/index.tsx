@@ -8,7 +8,7 @@ const Head: React.FC = () => {
 
   return (
     <Helmet>
-      <title>{`☀️ ${solar} | 🕰 ${hour} | 🌙 ${lunar}`}</title>
+      <title>{`☀️ ${solar} |🌙 ${lunar} | ⌛️ ${hour}`}</title>
     </Helmet>
   );
 };
