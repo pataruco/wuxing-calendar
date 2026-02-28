@@ -4,12 +4,6 @@
   "private": true,
   "author": "Pedro Martin <pataruco@gmail.com>",
   "license": "MIT",
-  "scripts": {
-    "lint": "biome check .",
-    "lint:fix": "biome check --fix .",
-    "format": "biome format .",
-    "format:fix": "biome format --fix ."
-  },
   "devDependencies": {
     "@biomejs/biome": "^2.4.4"
   }

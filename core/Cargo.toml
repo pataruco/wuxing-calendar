@@ -6,3 +6,10 @@ description = "Wuxing (五行) phase calculation library"
 
 [dependencies]
 astro = "2.0.0"
+
+[lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+
+[lints.rust]
+unsafe_code = "forbid"

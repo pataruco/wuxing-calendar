@@ -1,5 +1,4 @@
 # Wuxing Calendar — monorepo task runner
-
 # ─── Rust ───────────────────────────────────────────────
 
 # Run all Rust tests (core + wasm + cli)
@@ -16,7 +15,7 @@ cli-install:
 
 # Run the CLI (pass args after --)
 cli *ARGS:
-    cargo run -q --bin wuxing -- {{ARGS}}
+    cargo run -q --bin wuxing -- {{ ARGS }}
 
 # ─── WASM ───────────────────────────────────────────────
 
@@ -27,37 +26,49 @@ wasm-build:
 # ─── Web ────────────────────────────────────────────────
 
 # Install web dependencies
-[working-directory: 'web']
+[working-directory('web')]
 web-install:
     pnpm install
 
 # Start Vite dev server (builds WASM first)
-[working-directory: 'web']
+[working-directory('web')]
 web-dev: wasm-build
     pnpm exec vite
 
 # Build static site (builds WASM first)
-[working-directory: 'web']
+[working-directory('web')]
 web-build: wasm-build
     pnpm exec vite build
 
 # Preview production build
-[working-directory: 'web']
+[working-directory('web')]
 web-preview: web-build
     pnpm exec vite preview
 
 # ─── Lint & Type-check ─────────────────────────────────
 
+# Lint Rust crates with clippy
+clippy:
+    cargo clippy -- -D warnings
+
 # Run biome lint + format check
 lint:
-    pnpm run lint
+    pnpm exec biome check .
 
 # Fix biome lint + format issues
 lint-fix:
-    pnpm run lint:fix
+    pnpm exec biome check --fix .
+
+# Run biome format check
+format:
+    pnpm exec biome format .
+
+# Fix biome format issues
+format-fix:
+    pnpm exec biome format --fix .
 
 # Type-check the web project
-[working-directory: 'web']
+[working-directory('web')]
 type-check:
     pnpm exec tsc --noEmit
 
@@ -75,6 +86,6 @@ clean:
     rm -rf wasm/pkg web/dist
 
 # Dev: build WASM then start web dev server
-[working-directory: 'web']
+[working-directory('web')]
 dev: wasm-build
     pnpm exec vite
