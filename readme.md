@@ -26,14 +26,14 @@ wuxing-calendar/
 │   └── src/lib.rs
 ├── cli/                 ← native Rust binary (clap + colored)
 │   └── src/main.rs
-└── web/                 ← vanilla Vite app (HTML/CSS/JS + WASM)
+└── web/                 ← vanilla Vite app (HTML/CSS/TS + WASM)
     ├── index.html
-    ├── vite.config.js
+    ├── vite.config.ts
     └── src/
-        ├── main.js
+        ├── main.ts
         ├── styles.css
-        ├── lib/ (wasm.js, helpers.js)
-        └── pages/ (home.js, calendar.js)
+        ├── lib/ (wasm.ts, helpers.ts)
+        └── pages/ (home.ts, calendar.ts)
 ```
 
 ### Crates
@@ -88,6 +88,7 @@ just clean         # cargo clean + rm wasm/pkg web/dist
 just dev           # wasm-build → vite dev server
 just lint          # biome check
 just lint-fix      # biome check --fix
+just type-check    # tsc --noEmit on web/
 ```
 
 ## CLI
@@ -120,11 +121,12 @@ Published at [https://calendar.pataruco.com](https://calendar.pataruco.com)
 
 ## Linting
 
-JavaScript, CSS, and HTML are linted and formatted with [Biome](https://biomejs.dev/).
+TypeScript, CSS, and HTML are linted and formatted with [Biome](https://biomejs.dev/).
 
 ```sh
-just lint       # check
-just lint-fix   # auto-fix
+just lint        # check
+just lint-fix    # auto-fix
+just type-check  # tsc --noEmit on web/
 ```
 
 ## Tests

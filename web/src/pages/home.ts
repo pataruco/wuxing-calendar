@@ -1,14 +1,15 @@
+import type { AppState } from '../lib/helpers';
 import {
   capitalize,
   formatDate,
   formatTime,
   getMoonDisplay,
-} from '../lib/helpers.js';
-import { get_moon_angle, get_phases } from '../lib/wasm.js';
+} from '../lib/helpers';
+import { get_moon_angle, get_phases } from '../lib/wasm';
 
-let intervalId = null;
+let intervalId: ReturnType<typeof setInterval> | null = null;
 
-export function renderHome(container, state) {
+export function renderHome(container: HTMLElement, state: AppState): void {
   container.innerHTML = '';
 
   const main = document.createElement('main');
@@ -69,7 +70,7 @@ export function renderHome(container, state) {
   intervalId = setInterval(() => update(state), 1000);
 }
 
-function update(state) {
+function update(state: AppState): void {
   const now = new Date();
   const ms = now.getTime();
   const phases = get_phases(ms, state.hemisphere, true);
@@ -81,25 +82,35 @@ function update(state) {
 
   // Solar
   const solarLabel = document.getElementById('solar-label');
-  solarLabel.textContent = capitalize(phases.solar);
-  solarLabel.className = `phase-label ${phases.solar.toLowerCase()}`;
-  document.getElementById('solar-date').textContent = formatDate(now);
+  if (solarLabel) {
+    solarLabel.textContent = capitalize(phases.solar);
+    solarLabel.className = `phase-label ${phases.solar.toLowerCase()}`;
+  }
+  const solarDate = document.getElementById('solar-date');
+  if (solarDate) solarDate.textContent = formatDate(now);
 
   // Hour
   const hourLabel = document.getElementById('hour-label');
-  hourLabel.textContent = capitalize(phases.hour);
-  hourLabel.className = `phase-label ${phases.hour.toLowerCase()}`;
-  document.getElementById('hour-time').textContent = formatTime(now);
+  if (hourLabel) {
+    hourLabel.textContent = capitalize(phases.hour);
+    hourLabel.className = `phase-label ${phases.hour.toLowerCase()}`;
+  }
+  const hourTime = document.getElementById('hour-time');
+  if (hourTime) hourTime.textContent = formatTime(now);
 
   // Lunar
   const lunarLabel = document.getElementById('lunar-label');
-  lunarLabel.textContent = capitalize(phases.lunar);
-  lunarLabel.className = `phase-label ${phases.lunar.toLowerCase()}`;
-  document.getElementById('moon-emoji').textContent = moon.emoji;
-  document.getElementById('moon-text').textContent = moon.text;
+  if (lunarLabel) {
+    lunarLabel.textContent = capitalize(phases.lunar);
+    lunarLabel.className = `phase-label ${phases.lunar.toLowerCase()}`;
+  }
+  const moonEmojiEl = document.getElementById('moon-emoji');
+  if (moonEmojiEl) moonEmojiEl.textContent = moon.emoji;
+  const moonTextEl = document.getElementById('moon-text');
+  if (moonTextEl) moonTextEl.textContent = moon.text;
 }
 
-export function destroyHome() {
+export function destroyHome(): void {
   if (intervalId) {
     clearInterval(intervalId);
     intervalId = null;

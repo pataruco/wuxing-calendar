@@ -1,20 +1,37 @@
+export interface MoonDisplay {
+  emoji: string;
+  text: string;
+}
+
+export interface AppState {
+  hemisphere: string;
+  latitude: number | null;
+  longitude: number | null;
+}
+
 /** Capitalize first letter, lowercase the rest. */
-export function capitalize(str) {
+export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
 /** Get the user's preferred locales (falls back to en-GB). */
-export function getUserLocales() {
+export function getUserLocales(): string[] {
+  const nav = navigator as Navigator & {
+    userLanguage?: string;
+    browserLanguage?: string;
+    systemLanguage?: string;
+  };
+
   const raw = [
     ...(navigator.languages || []),
     navigator.language,
-    navigator.userLanguage,
-    navigator.browserLanguage,
-    navigator.systemLanguage,
-  ].filter(Boolean);
+    nav.userLanguage,
+    nav.browserLanguage,
+    nav.systemLanguage,
+  ].filter(Boolean) as string[];
 
-  const seen = new Set();
-  const result = [];
+  const seen = new Set<string>();
+  const result: string[] = [];
   for (const locale of raw) {
     const normalized = locale.replace('_', '-');
     if (!seen.has(normalized)) {
@@ -28,7 +45,7 @@ export function getUserLocales() {
 const locale = getUserLocales()[0];
 
 /** Format a date with Intl, using the user's locale. */
-export function formatDate(date) {
+export function formatDate(date: Date): string {
   return new Intl.DateTimeFormat(locale, {
     day: 'numeric',
     month: 'long',
@@ -38,7 +55,7 @@ export function formatDate(date) {
 }
 
 /** Format time (12h with AM/PM). */
-export function formatTime(date) {
+export function formatTime(date: Date): string {
   return new Intl.DateTimeFormat(locale, {
     hour12: true,
     hour: 'numeric',
@@ -50,7 +67,7 @@ export function formatTime(date) {
  * Map moon phase angle (0–360°) to an emoji and description.
  * 8 sectors of 45° each.
  */
-export function getMoonDisplay(angleDeg) {
+export function getMoonDisplay(angleDeg: number): MoonDisplay {
   if (angleDeg < 45) return { emoji: '\u{1F311}', text: 'New Moon' };
   if (angleDeg < 90) return { emoji: '\u{1F312}', text: 'Waxing Crescent' };
   if (angleDeg < 135) return { emoji: '\u{1F313}', text: 'First Quarter' };
@@ -62,8 +79,8 @@ export function getMoonDisplay(angleDeg) {
 }
 
 /** Convert decimal lat/lng to DMS string. */
-export function convertToDMS(lat, lng) {
-  function toDMS(dd, isLat) {
+export function convertToDMS(lat: number, lng: number): string {
+  function toDMS(dd: number, isLat: boolean): string {
     const dir = dd >= 0 ? (isLat ? 'N' : 'E') : isLat ? 'S' : 'W';
     const abs = Math.abs(dd);
     const deg = Math.floor(abs);
@@ -76,7 +93,7 @@ export function convertToDMS(lat, lng) {
 }
 
 /** Get season label for marker events. */
-export function getSeasonLabel(season) {
+export function getSeasonLabel(season: number): string {
   switch (season) {
     case 0:
       return 'March Equinox';

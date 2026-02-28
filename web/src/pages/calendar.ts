@@ -1,22 +1,28 @@
+import type { AppState } from '../lib/helpers';
 import {
   capitalize,
   getMoonDisplay,
   getSeasonLabel,
   getUserLocales,
-} from '../lib/helpers.js';
+} from '../lib/helpers';
 import {
   get_lunar,
   get_moon_angle,
   get_season_timestamp,
   get_solar,
-} from '../lib/wasm.js';
+} from '../lib/wasm';
+
+interface SeasonMarker {
+  label: string;
+  type: string;
+}
 
 const locale = getUserLocales()[0];
 
-let currentYear;
-let currentMonth;
+let currentYear: number;
+let currentMonth: number;
 
-export function renderCalendar(container, state) {
+export function renderCalendar(container: HTMLElement, state: AppState): void {
   const now = new Date();
   currentYear = now.getFullYear();
   currentMonth = now.getMonth();
@@ -34,7 +40,7 @@ export function renderCalendar(container, state) {
   `;
   container.appendChild(main);
 
-  document.getElementById('cal-prev').addEventListener('click', () => {
+  document.getElementById('cal-prev')?.addEventListener('click', () => {
     currentMonth--;
     if (currentMonth < 0) {
       currentMonth = 11;
@@ -43,7 +49,7 @@ export function renderCalendar(container, state) {
     drawMonth(state);
   });
 
-  document.getElementById('cal-next').addEventListener('click', () => {
+  document.getElementById('cal-next')?.addEventListener('click', () => {
     currentMonth++;
     if (currentMonth > 11) {
       currentMonth = 0;
@@ -55,16 +61,18 @@ export function renderCalendar(container, state) {
   drawMonth(state);
 }
 
-function drawMonth(state) {
+function drawMonth(state: AppState): void {
   const grid = document.getElementById('cal-grid');
+  if (!grid) return;
   grid.innerHTML = '';
 
   const title = document.getElementById('cal-title');
   const monthDate = new Date(currentYear, currentMonth, 1);
-  title.textContent = new Intl.DateTimeFormat(locale, {
-    month: 'long',
-    year: 'numeric',
-  }).format(monthDate);
+  if (title)
+    title.textContent = new Intl.DateTimeFormat(locale, {
+      month: 'long',
+      year: 'numeric',
+    }).format(monthDate);
 
   // Day headers
   const isNarrow = window.innerWidth < 750;
@@ -114,7 +122,7 @@ function drawMonth(state) {
     // Day number
     const numEl = document.createElement('div');
     numEl.className = 'day-number';
-    numEl.textContent = cellDate.getDate();
+    numEl.textContent = String(cellDate.getDate());
     cell.appendChild(numEl);
 
     if (isCurrentMonth) {
@@ -150,8 +158,8 @@ function drawMonth(state) {
   }
 }
 
-function buildSeasonMarkers(year) {
-  const markers = {};
+function buildSeasonMarkers(year: number): Record<string, SeasonMarker> {
+  const markers: Record<string, SeasonMarker> = {};
   const types = ['equinox', 'solstice', 'equinox', 'solstice'];
 
   for (let s = 0; s < 4; s++) {
@@ -166,6 +174,6 @@ function buildSeasonMarkers(year) {
   return markers;
 }
 
-export function destroyCalendar() {
+export function destroyCalendar(): void {
   // No timers to clean up
 }

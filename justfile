@@ -46,7 +46,7 @@ web-build: wasm-build
 web-preview: web-build
     pnpm exec vite preview
 
-# ─── Lint ──────────────────────────────────────────────
+# ─── Lint & Type-check ─────────────────────────────────
 
 # Run biome lint + format check
 lint:
@@ -55,6 +55,11 @@ lint:
 # Fix biome lint + format issues
 lint-fix:
     pnpm run lint:fix
+
+# Type-check the web project
+[working-directory: 'web']
+type-check:
+    pnpm exec tsc --noEmit
 
 # ─── All ────────────────────────────────────────────────
 

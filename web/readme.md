@@ -1,6 +1,6 @@
 # Web
 
-Vanilla Vite app consuming the `wuxing-wasm` package. No frameworks. Published at [https://calendar.pataruco.com](https://calendar.pataruco.com).
+Vanilla Vite + TypeScript app consuming the `wuxing-wasm` package. No frameworks. Published at [https://calendar.pataruco.com](https://calendar.pataruco.com).
 
 ## Development
 
