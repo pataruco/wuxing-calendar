@@ -169,6 +169,7 @@ Subcommands: `solar`, `lunar`, `hour`. Flags: `-d/--date`, `-H/--hemisphere`,
 ```bash
 just test          # cargo test --workspace (all 32 tests)
 just cli           # cargo run -q --bin wuxing
+just cli-install   # install CLI to ~/.cargo/bin
 just cli-build     # cargo build --release --bin wuxing
 just wasm-build    # wasm-pack build --target web --release
 just web-install   # pnpm install in web/

@@ -77,6 +77,7 @@ wuxing-calendar/
 ```sh
 just test          # cargo test --workspace (all 32 tests)
 just cli           # cargo run -q --bin wuxing
+just cli-install   # install CLI to ~/.cargo/bin
 just cli-build     # cargo build --release --bin wuxing
 just wasm-build    # wasm-pack build --target web --release
 just web-install   # pnpm install in web/
@@ -89,7 +90,15 @@ just lint          # biome check
 just lint-fix      # biome check --fix
 ```
 
-## CLI usage
+## CLI
+
+Install the CLI binary to your system:
+
+```sh
+just cli-install
+```
+
+Then use it directly:
 
 ```sh
 wuxing                                          # all phases, current time

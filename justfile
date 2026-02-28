@@ -10,6 +10,10 @@ test:
 cli-build:
     cargo build --release --bin wuxing
 
+# Install the CLI to ~/.cargo/bin
+cli-install:
+    cargo install --path cli
+
 # Run the CLI (pass args after --)
 cli *ARGS:
     cargo run -q --bin wuxing -- {{ARGS}}
