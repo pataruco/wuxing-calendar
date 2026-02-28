@@ -190,7 +190,7 @@ Node version: `lts/krypton`. Package manager: pnpm.
 
 ## Tests
 
-32 Rust unit tests in `core/src/calendars/` covering all original Jest test cases:
+34 Rust unit tests in `core/src/calendars/` covering all original Jest test cases:
 - 5 hour tests, 12 lunar tests (6 exact + 6 non-exact), 10 solar tests (5 Northern + 5 Southern)
 
 Run: `just test` or `cargo test --workspace`

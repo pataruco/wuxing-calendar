@@ -10,13 +10,16 @@ fn is_in_phase_range(jd: f64, season_jd: f64) -> bool {
 }
 
 /// Check if a JD falls in the December solstice range (wraps the year boundary).
+///
+/// Bounded to year boundaries so mid-year dates cannot match.
 fn is_in_december_range(jd: f64, year: i32) -> bool {
     let current_dec = jd_to_midnight(equinox_solstice_jd(year, 3));
     let prev_dec = jd_to_midnight(equinox_solstice_jd(year - 1, 3));
 
     // Early year: within 36 days after last year's December solstice
-    // Late year:  within 36 days before current year's December solstice
-    jd <= prev_dec + DAYS_RANGE || jd >= current_dec - DAYS_RANGE
+    (jd >= prev_dec && jd <= prev_dec + DAYS_RANGE)
+        // Late year: within 36 days of current year's December solstice
+        || (jd >= current_dec - DAYS_RANGE && jd <= current_dec + DAYS_RANGE)
 }
 
 /// Determine the solar phase from a Unix timestamp (milliseconds).
@@ -104,6 +107,26 @@ mod tests {
     fn solar_n_2021_05_01() {
         assert_eq!(
             get_solar_phase(date_ms(2021, 5, 1), "NORTHERN", false),
+            Phase::Earth
+        );
+    }
+
+    #[test]
+    fn solar_n_2021_08_10_is_earth() {
+        // Aug 10 is in the gap between June solstice (+36d ≈ Jul 27)
+        // and September equinox (−36d ≈ Aug 17). Must be Earth.
+        assert_eq!(
+            get_solar_phase(date_ms(2021, 8, 10), "NORTHERN", false),
+            Phase::Earth
+        );
+    }
+
+    #[test]
+    fn solar_n_2021_11_01_is_earth() {
+        // Nov 1 is in the gap between September equinox (+36d ≈ Oct 28)
+        // and December solstice (−36d ≈ Nov 15). Must be Earth.
+        assert_eq!(
+            get_solar_phase(date_ms(2021, 11, 1), "NORTHERN", false),
             Phase::Earth
         );
     }
