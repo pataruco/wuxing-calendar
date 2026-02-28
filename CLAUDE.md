@@ -30,14 +30,15 @@ wuxing-calendar/
 │   └── src/lib.rs
 ├── cli/                 ← native Rust binary (clap + colored)
 │   └── src/main.rs
-└── web/                 ← vanilla Vite app (HTML/CSS/JS + WASM)
+└── web/                 ← vanilla Vite + TypeScript app (HTML/CSS/TS + WASM)
     ├── index.html
-    ├── vite.config.js
+    ├── vite.config.ts
+    ├── tsconfig.json
     └── src/
-        ├── main.js
+        ├── main.ts
         ├── styles.css
-        ├── lib/ (wasm.js, helpers.js)
-        └── pages/ (home.js, calendar.js)
+        ├── lib/ (wasm.ts, helpers.ts)
+        └── pages/ (home.ts, calendar.ts)
 ```
 
 ### Crate structure
@@ -48,7 +49,7 @@ wuxing-calendar/
   functions for JavaScript consumption. Built with `wasm-pack --target web`.
 - **`cli/`** (`wuxing-cli`) — native Rust binary using `clap` for arg parsing,
   `colored` for terminal output, and `chrono` for date handling.
-- **`web/`** — vanilla Vite app consuming WASM. No frameworks.
+- **`web/`** — vanilla Vite + TypeScript app consuming WASM. No frameworks.
 
 ---
 
@@ -109,7 +110,7 @@ chrono = "0.4"
 
 ### Web (`web/package.json`)
 - `wuxing-wasm` via `file:../wasm/pkg`
-- `vite` v6, `vite-plugin-wasm` v3
+- `vite` v6, `vite-plugin-wasm` v3, `typescript` v5
 
 ---
 
@@ -180,6 +181,7 @@ just clean         # cargo clean + rm wasm/pkg web/dist
 just dev           # wasm-build → vite dev server
 just lint          # biome check
 just lint-fix      # biome check --fix
+just type-check    # tsc --noEmit on web/
 ```
 
 Node version: `lts/krypton`. Package manager: pnpm.

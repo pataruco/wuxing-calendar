@@ -11,7 +11,10 @@
       "Bash(export:*)",
       "Bash(npm view:*)",
       "WebSearch",
-      "Bash(just:*)"
+      "Bash(just:*)",
+      "Bash(git mv:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm exec:*)"
     ]
   }
 }

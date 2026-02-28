@@ -1,12 +1,13 @@
 import './styles.css';
-import { convertToDMS } from './lib/helpers.js';
-import { loadWasm } from './lib/wasm.js';
-import { destroyCalendar, renderCalendar } from './pages/calendar.js';
-import { destroyHome, renderHome } from './pages/home.js';
+import type { AppState } from './lib/helpers';
+import { convertToDMS } from './lib/helpers';
+import { loadWasm } from './lib/wasm';
+import { destroyCalendar, renderCalendar } from './pages/calendar';
+import { destroyHome, renderHome } from './pages/home';
 
 // ── App state ────────────────────────────────────────
 
-const state = {
+const state: AppState = {
   hemisphere: 'NORTHERN',
   latitude: null,
   longitude: null,
@@ -14,7 +15,7 @@ const state = {
 
 // ── Geolocation ──────────────────────────────────────
 
-function requestGeolocation() {
+function requestGeolocation(): void {
   if (!navigator.geolocation) return;
   navigator.geolocation.getCurrentPosition(
     (pos) => {
@@ -29,18 +30,18 @@ function requestGeolocation() {
   );
 }
 
-function updateCoordinates() {
+function updateCoordinates(): void {
   const el = document.getElementById('coordinates');
-  if (el && state.latitude != null) {
+  if (el && state.latitude != null && state.longitude != null) {
     el.textContent = convertToDMS(state.latitude, state.longitude);
   }
 }
 
 // ── Router ───────────────────────────────────────────
 
-let currentDestroy = null;
+let currentDestroy: (() => void) | null = null;
 
-function navigate() {
+function navigate(): void {
   if (currentDestroy) {
     currentDestroy();
     currentDestroy = null;
@@ -48,6 +49,7 @@ function navigate() {
 
   const hash = window.location.hash || '#/';
   const app = document.getElementById('app');
+  if (!app) return;
 
   // Build shell
   app.innerHTML = '';
