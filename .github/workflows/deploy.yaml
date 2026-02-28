@@ -28,8 +28,15 @@ jobs:
       - name: Set environment and install dependencies
         uses: ./.github/actions/prepare
 
-      - name: Build 📦
-        run: just web-build
+      - name: Build WASM 📦
+        run: just wasm-build
+
+      - name: Re-link WASM package
+        run: pnpm install
+
+      - name: Build web 📦
+        working-directory: web
+        run: pnpm exec vite build
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
