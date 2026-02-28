@@ -1,0 +1,15 @@
+[package]
+name = "wuxing-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Wuxing (五行) phase calendar — command-line tool"
+
+[[bin]]
+name = "wuxing"
+path = "src/main.rs"
+
+[dependencies]
+wuxing-core = { path = "../core" }
+clap = { version = "4", features = ["derive"] }
+colored = "3"
+chrono = "0.4"

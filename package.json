@@ -1,30 +1,16 @@
 {
-  "name": "inter-creativity-destructivity-calendar",
+  "name": "wuxing-calendar",
   "version": "1.0.0",
+  "private": true,
   "author": "Pedro Martin <pataruco@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "lint": "biome check .",
+    "lint:fix": "biome check --fix .",
+    "format": "biome format .",
+    "format:fix": "biome format --fix ."
+  },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.22.0",
-    "@typescript-eslint/parser": "^4.22.0",
-    "eslint": "^7.25.0",
-    "husky": "^6.0.0",
-    "lerna": "^4.0.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.2.1"
-  },
-  "lint-staged": {
-    "*.{js,json,yml,md}": [
-      "yarn prettier --write"
-    ],
-    "*.{ts}": [
-      "yarn eslint --fix",
-      "yarn prettier --write"
-    ]
-  },
-  "prepare": "yarn husky install",
-  "private": "true",
-  "workspaces": [
-    "five-phases",
-    "web"
-  ]
+    "@biomejs/biome": "^2.4.4"
+  }
 }

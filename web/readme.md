@@ -1,48 +1,23 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1dec2e62-3301-428e-8b9a-0cfbc6d02f0e/deploy-status)](https://app.netlify.com/sites/upbeat-jennings-4cf80f/deploys)
-
 # Web
 
-[React][react] app that service an interface for [five phases](./five-phases/readme.md) API, published in [https://calendar.pataruco.com][site]
+Vanilla Vite app consuming the `wuxing-wasm` package. No frameworks. Published at [https://calendar.pataruco.com](https://calendar.pataruco.com).
 
 ## Development
 
-- Run local server
+```sh
+just web-dev
+```
 
-  ```sh
-  yarn start
-  ```
+This builds the WASM crate first, then starts the Vite dev server.
 
-## Deployment
+## Production build
 
-- Create a production build
+```sh
+just web-build
+```
 
-  ```sh
-  yarn workspace web build
-  ```
+## Preview
 
-A [Github action][gh-actions] is set to deal with deployments to prod. To trigger a deployment
-
-- Create a git release [tag][git-tag] with the following convention `R.<number>.<number>.<number>`
-
-  ```sh
-  git tag R.1.0
-  ```
-
-- Push tag to remote
-
-  ```sh
-  git push --tags
-  ```
-
-- You can check CI/CD build [here](https://github.com/pataruco/wuxing-calendar/actions/workflows/ci.yml)
-
-- Make a tea 🫖
-
-- Check [site][site] live
-
-- 🚀
-
-[site]: https://calendar.pataruco.com
-[react]: https://reactjs.org/
-[git-tag]: https://git-scm.com/book/en/v2/Git-Basics-Tagging
-[gh-actions]: https://github.com/features/actions
+```sh
+just web-preview
+```

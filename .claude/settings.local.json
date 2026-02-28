@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.rs)",
+      "Bash(moon:*)",
+      "Bash(cargo test:*)",
+      "Bash(wasm-pack build:*)",
+      "Bash(cargo run:*)",
+      "Bash(just test:*)",
+      "Bash(just cli:*)",
+      "Bash(export:*)",
+      "Bash(npm view:*)",
+      "WebSearch",
+      "Bash(just:*)"
+    ]
+  }
+}

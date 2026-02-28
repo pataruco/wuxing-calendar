@@ -1,60 +1,135 @@
 # Wuxing Calendar
 
-Based on [Wuxing Five Phases](<https://en.wikipedia.org/wiki/Wuxing_(Chinese_philosophy)>) concept, I built an hour, solar and lunar calendars
+Based on the [Wuxing Five Phases](https://en.wikipedia.org/wiki/Wuxing_(Chinese_philosophy)) concept, this project computes three simultaneous phase readings for any given moment:
+
+- **Solar** — based on equinoxes and solstices (36-day influence windows)
+- **Lunar** — based on moon phase angle (new moon = Water, full moon = Fire)
+- **Hour** — based on time of day (midnight = Water, noon = Fire, with ~72 min Earth gaps)
 
 ## Structure
 
-This monorepo is divided in two packages
+This is a Cargo + pnpm workspace monorepo:
 
-### [five phases](./five-phases/readme.md)
+```
+wuxing-calendar/
+├── Cargo.toml           ← workspace root (members: core, wasm, cli)
+├── justfile             ← monorepo task runner
+├── biome.json           ← Biome linter/formatter config
+├── package.json         ← pnpm workspace root (member: web)
+├── core/                ← pure Rust library — all calculation logic
+│   └── src/
+│       ├── lib.rs
+│       ├── phase.rs
+│       ├── astronomy.rs
+│       └── calendars/ (hour.rs, lunar.rs, solar.rs)
+├── wasm/                ← thin wasm-bindgen wrapper around core
+│   └── src/lib.rs
+├── cli/                 ← native Rust binary (clap + colored)
+│   └── src/main.rs
+└── web/                 ← vanilla Vite app (HTML/CSS/JS + WASM)
+    ├── index.html
+    ├── vite.config.js
+    └── src/
+        ├── main.js
+        ├── styles.css
+        ├── lib/ (wasm.js, helpers.js)
+        └── pages/ (home.js, calendar.js)
+```
 
-core API that given an object `Date` calculate hour, solar and lunar phases
+### Crates
 
-### [Web](./web/readme.md) [![Netlify Status](https://api.netlify.com/api/v1/badges/1dec2e62-3301-428e-8b9a-0cfbc6d02f0e/deploy-status)](https://app.netlify.com/sites/upbeat-jennings-4cf80f/deploys)
+- **`core/`** (`wuxing-core`) — pure Rust library, no WASM dependencies. Contains all phase calculation logic. Used by both `wasm/` and `cli/`.
+- **`wasm/`** (`wuxing-wasm`) — thin `wasm-bindgen` wrapper that re-exports core functions for JavaScript consumption. Built with `wasm-pack --target web`.
+- **`cli/`** (`wuxing-cli`) — native Rust binary using `clap` for arg parsing, `colored` for terminal output, and `chrono` for date handling.
+- **`web/`** — vanilla Vite app consuming WASM. No frameworks.
 
-[React][react] app that service an interface for [five phases](./five-phases/readme.md) API, published in [https://calendar.pataruco.com][site]
+## Prerequisites
 
-## Installation
+- [Rust](https://www.rust-lang.org/tools/install) (stable)
+- [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/)
+- [Node.js](https://nodejs.org/) (see `.nvmrc`)
+- [pnpm](https://pnpm.io/installation)
+- [just](https://github.com/casey/just) (task runner)
 
-1. Clone this repo
+## Getting started
+
+1. Clone the repo
 
    ```sh
    git clone git@github.com:pataruco/wuxing-calendar.git
+   cd wuxing-calendar
    ```
 
-2. Install dependencies
+2. Install JS dependencies
 
    ```sh
-   yarn
+   just install
    ```
 
-## Deployment
+3. Run the dev server (builds WASM first)
 
-### Web
+   ```sh
+   just dev
+   ```
 
-A [Github action][gh-actions] is set to deal with deployments to prod. To trigger a deployment
+## Build & development (justfile)
 
-- Create a git release [tag][git-tag] with the following convention `R.<number>.<number>.<number>`
+```sh
+just test          # cargo test --workspace (all 32 tests)
+just cli           # cargo run -q --bin wuxing
+just cli-build     # cargo build --release --bin wuxing
+just wasm-build    # wasm-pack build --target web --release
+just web-install   # pnpm install in web/
+just web-dev       # wasm-build → vite dev server
+just web-build     # wasm-build → vite build
+just build         # wasm-build → web-build + cli-build
+just clean         # cargo clean + rm wasm/pkg web/dist
+just dev           # wasm-build → vite dev server
+just lint          # biome check
+just lint-fix      # biome check --fix
+```
 
-  ```sh
-  git tag R.1.0
-  ```
+## CLI usage
 
-- Push tag to remote
+```sh
+wuxing                                          # all phases, current time
+wuxing --date "2024-06-21" --hemisphere southern --exact --json
+wuxing solar --date "2024-06-21"
+wuxing lunar --exact
+wuxing hour --json
+```
 
-  ```sh
-  git push --tags
-  ```
+Subcommands: `solar`, `lunar`, `hour`. Flags: `-d/--date`, `-H/--hemisphere`, `-e/--exact`, `-j/--json`.
 
-- You can check CI/CD build [here](https://github.com/pataruco/wuxing-calendar/actions/workflows/ci.yml)
+## Web app
 
-- Make a tea 🫖
+Published at [https://calendar.pataruco.com](https://calendar.pataruco.com)
 
-- Check [site][site] live
+- Hash-based routing: `#/` (home) and `#/calendar`
+- Home: real-time phase display, updates every 1s, geolocation for hemisphere
+- Calendar: monthly grid, solar phases (exact), lunar phases (non-exact), season markers
 
-- 🚀
+## Linting
 
-[site]: https://calendar.pataruco.com
-[react]: https://reactjs.org/
-[git-tag]: https://git-scm.com/book/en/v2/Git-Basics-Tagging
-[gh-actions]: https://github.com/features/actions
+JavaScript, CSS, and HTML are linted and formatted with [Biome](https://biomejs.dev/).
+
+```sh
+just lint       # check
+just lint-fix   # auto-fix
+```
+
+## Tests
+
+32 Rust unit tests in `core/src/calendars/` covering:
+
+- 5 hour tests
+- 12 lunar tests (6 exact + 6 non-exact)
+- 10 solar tests (5 Northern + 5 Southern)
+
+```sh
+just test
+```
+
+## License
+
+MIT

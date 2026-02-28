@@ -1,0 +1,8 @@
+[package]
+name = "wuxing-core"
+version = "0.1.0"
+edition = "2021"
+description = "Wuxing (五行) phase calculation library"
+
+[dependencies]
+astro = "2.0.0"
