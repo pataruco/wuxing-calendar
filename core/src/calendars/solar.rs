@@ -3,7 +3,7 @@ use crate::phase::Phase;
 
 const DAYS_RANGE: f64 = 36.0;
 
-/// Check if a JD falls within ±DAYS_RANGE of a season JD (both truncated to midnight).
+/// Check if a JD falls within ±`DAYS_RANGE` of a season JD (both truncated to midnight).
 fn is_in_phase_range(jd: f64, season_jd: f64) -> bool {
     let s = jd_to_midnight(season_jd);
     jd >= s - DAYS_RANGE && jd <= s + DAYS_RANGE
@@ -20,6 +20,7 @@ fn is_in_december_range(jd: f64, year: i32) -> bool {
 }
 
 /// Determine the solar phase from a Unix timestamp (milliseconds).
+#[must_use]
 pub fn get_solar_phase(timestamp_ms: f64, hemisphere: &str, exact: bool) -> Phase {
     let jd = timestamp_ms_to_jd(timestamp_ms);
     let effective_jd = if exact { jd } else { jd_to_midnight(jd) };
@@ -51,18 +52,18 @@ mod tests {
     /// Helper: midnight UTC timestamp for a calendar date.
     fn date_ms(year: i32, month: u32, day: u32) -> f64 {
         let (y, m) = if month <= 2 {
-            (year as f64 - 1.0, month as f64 + 12.0)
+            (f64::from(year) - 1.0, f64::from(month) + 12.0)
         } else {
-            (year as f64, month as f64)
+            (f64::from(year), f64::from(month))
         };
         let a = (y / 100.0).floor();
         let b = 2.0 - a + (a / 4.0).floor();
         let jd = (365.25 * (y + 4716.0)).floor()
             + (30.6001 * (m + 1.0)).floor()
-            + day as f64
+            + f64::from(day)
             + b
             - 1524.5;
-        (jd - 2440587.5) * 86_400_000.0
+        (jd - 2_440_587.5) * 86_400_000.0
     }
 
     // ── Northern hemisphere ────────────────────────────────

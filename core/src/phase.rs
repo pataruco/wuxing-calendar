@@ -12,11 +12,11 @@ pub enum Phase {
 impl fmt::Display for Phase {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Phase::Wood => write!(f, "WOOD"),
-            Phase::Fire => write!(f, "FIRE"),
-            Phase::Earth => write!(f, "EARTH"),
-            Phase::Metal => write!(f, "METAL"),
-            Phase::Water => write!(f, "WATER"),
+            Self::Wood => write!(f, "WOOD"),
+            Self::Fire => write!(f, "FIRE"),
+            Self::Earth => write!(f, "EARTH"),
+            Self::Metal => write!(f, "METAL"),
+            Self::Water => write!(f, "WATER"),
         }
     }
 }

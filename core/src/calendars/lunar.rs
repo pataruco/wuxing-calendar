@@ -32,6 +32,7 @@ fn is_in_phase_range(degrees: f64, center: f64, exact: bool) -> bool {
 }
 
 /// Determine the lunar phase from a Unix timestamp (milliseconds).
+#[must_use]
 pub fn get_lunar_phase(timestamp_ms: f64, exact: bool) -> Phase {
     let jd = timestamp_ms_to_jd(timestamp_ms);
     let effective_jd = if exact { jd } else { jd_to_midnight(jd) };
@@ -58,18 +59,18 @@ mod tests {
     fn date_ms(year: i32, month: u32, day: u32) -> f64 {
         // Manual Gregorian→JD (Meeus Ch.7), then JD→ms.
         let (y, m) = if month <= 2 {
-            (year as f64 - 1.0, month as f64 + 12.0)
+            (f64::from(year) - 1.0, f64::from(month) + 12.0)
         } else {
-            (year as f64, month as f64)
+            (f64::from(year), f64::from(month))
         };
         let a = (y / 100.0).floor();
         let b = 2.0 - a + (a / 4.0).floor();
         let jd = (365.25 * (y + 4716.0)).floor()
             + (30.6001 * (m + 1.0)).floor()
-            + day as f64
+            + f64::from(day)
             + b
             - 1524.5;
-        (jd - 2440587.5) * 86_400_000.0
+        (jd - 2_440_587.5) * 86_400_000.0
     }
 
     // ── not exact ──────────────────────────────────────────

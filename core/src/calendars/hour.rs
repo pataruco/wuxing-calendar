@@ -3,7 +3,7 @@ use crate::phase::Phase;
 
 /// Get the hour as a float: hours + minutes/60.
 fn hour_as_float(hours: u32, minutes: u32) -> f64 {
-    hours as f64 + minutes as f64 / 60.0
+    f64::from(hours) + f64::from(minutes) / 60.0
 }
 
 /// Check if a time falls within a non-wrapping phase range.
@@ -21,6 +21,7 @@ fn is_in_water_range(time: f64) -> bool {
 }
 
 /// Determine the hour-of-day phase from a Unix timestamp (milliseconds, UTC).
+#[must_use]
 pub fn get_hour_phase(timestamp_ms: f64) -> Phase {
     let (hours, minutes) = timestamp_ms_to_utc_hm(timestamp_ms);
     let time = hour_as_float(hours, minutes);
@@ -45,7 +46,7 @@ mod tests {
     /// Helper: timestamp for 2021-01-01 at given UTC hour:min.
     fn ts(hour: u32, min: u32) -> f64 {
         // 2021-01-01 00:00 UTC = 1609459200000 ms
-        1_609_459_200_000.0 + (hour as f64 * 3600.0 + min as f64 * 60.0) * 1000.0
+        1_609_459_200_000.0 + (f64::from(hour) * 3600.0 + f64::from(min) * 60.0) * 1000.0
     }
 
     #[test]

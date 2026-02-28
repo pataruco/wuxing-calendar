@@ -19,6 +19,7 @@ pub struct Phases {
 /// * `timestamp_ms` – Unix milliseconds
 /// * `hemisphere`   – `"NORTHERN"` or `"SOUTHERN"`
 /// * `exact`        – tighter lunar/solar windows when `true`
+#[must_use]
 pub fn get_phases(timestamp_ms: f64, hemisphere: &str, exact: bool) -> Phases {
     Phases {
         solar: get_solar_phase(timestamp_ms, hemisphere, exact),
@@ -28,6 +29,7 @@ pub fn get_phases(timestamp_ms: f64, hemisphere: &str, exact: bool) -> Phases {
 }
 
 /// Return the moon phase angle in degrees [0, 360).
+#[must_use]
 pub fn get_moon_angle(timestamp_ms: f64) -> f64 {
     let jd = astronomy::timestamp_ms_to_jd(timestamp_ms);
     astronomy::moon_phase_angle(jd)
@@ -37,7 +39,8 @@ pub fn get_moon_angle(timestamp_ms: f64) -> f64 {
 ///
 /// Season: 0 = March equinox, 1 = June solstice,
 ///         2 = September equinox, 3 = December solstice.
+#[must_use]
 pub fn get_season_timestamp(year: i32, season: u8) -> f64 {
     let jd = astronomy::equinox_solstice_jd(year, season);
-    (jd - 2440587.5) * 86_400_000.0
+    (jd - 2_440_587.5) * 86_400_000.0
 }

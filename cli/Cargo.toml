@@ -13,3 +13,10 @@ wuxing-core = { path = "../core" }
 clap = { version = "4", features = ["derive"] }
 colored = "3"
 chrono = "0.4"
+
+[lints.clippy]
+pedantic = "warn"
+nursery = "warn"
+
+[lints.rust]
+unsafe_code = "forbid"
