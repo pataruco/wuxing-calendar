@@ -20,6 +20,11 @@ runs:
 
     - uses: extractions/setup-just@v3
 
+    - name: Install wasm-pack 📦
+      uses: jetli/wasm-pack-action@v0.4.0
+      with:
+        version: 'latest'
+
     - name: Create WASM stub for pnpm resolution
       shell: bash
       run: |
