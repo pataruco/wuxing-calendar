@@ -19,9 +19,24 @@ env:
   RUSTC_WRAPPER: "sccache"
 
 jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set environment and install dependencies
+        uses: ./.github/actions/prepare
+
   conventional-commits:
     name: Conventional Commits
     runs-on: ubuntu-latest
+    needs: prepare
     permissions:
       contents: read
     steps:
@@ -40,6 +55,7 @@ jobs:
   lint:
     name: Lint & format
     runs-on: ubuntu-latest
+    needs: prepare
     permissions:
       contents: read
     steps:
@@ -60,6 +76,7 @@ jobs:
   unit-tests:
     name: Unit tests
     runs-on: ubuntu-latest
+    needs: prepare
     permissions:
       contents: read
     steps:
