@@ -68,7 +68,8 @@ li {
   min-height: 100vh;
 }
 
-main {
+main,
+#content {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -154,6 +155,9 @@ footer a:hover {
 
 .home main {
   flex-direction: column;
+  max-width: 75%;
+  margin: 0 auto;
+  align-items: flex-start;
 }
 
 .home section {
