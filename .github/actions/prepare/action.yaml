@@ -20,6 +20,12 @@ runs:
 
     - uses: extractions/setup-just@v3
 
+    - name: Create WASM stub for pnpm resolution
+      shell: bash
+      run: |
+        mkdir -p wasm/pkg
+        echo '{"name":"wuxing-wasm","version":"0.0.0"}' > wasm/pkg/package.json
+
     - name: Install dependencies 📦
       shell: bash
       run: pnpm install
