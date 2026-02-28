@@ -4,6 +4,7 @@
   "private": true,
   "author": "Pedro Martin <pataruco@gmail.com>",
   "license": "MIT",
+  "packageManager": "pnpm@10.30.3",
   "devDependencies": {
     "@biomejs/biome": "^2.4.4"
   }
