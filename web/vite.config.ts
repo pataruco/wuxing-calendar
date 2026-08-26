@@ -6,6 +6,9 @@ export default defineConfig({
   base: process.env.BASE_PATH || '/',
   publicDir: 'public',
   plugins: [wasm()],
+  optimizeDeps: {
+    exclude: ['wuxing-wasm'],
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
