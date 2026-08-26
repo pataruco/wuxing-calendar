@@ -37,8 +37,8 @@ wuxing-calendar/
     └── src/
         ├── main.ts
         ├── styles.css
-        ├── lib/ (wasm.ts, helpers.ts)
-        └── pages/ (home.ts, calendar.ts)
+        ├── lib/ (wasm.ts, helpers.ts, sun.ts, practice.ts)
+        └── pages/ (home.ts, calendar.ts, practice.ts)
 ```
 
 ### Crate structure
@@ -157,9 +157,13 @@ Subcommands: `solar`, `lunar`, `hour`. Flags: `-d/--date`, `-H/--hemisphere`,
 
 ## Web app
 
-- Hash-based routing: `#/` (home) and `#/calendar`
+- Hash-based routing: `#/` (home), `#/calendar` and `#/practice`
 - Home: real-time phase display, updates every 1s, geolocation for hemisphere
 - Calendar: monthly grid, solar phases (exact), lunar phases (non-exact), season markers
+- Practice: chi kung morning/evening prescription driven by the current solar phase
+  (Wong Kiew Kit repertoire, element-keyed so hemisphere flipping works for free),
+  plus Five-Element seasonal foods and NOAA sunrise/sunset at the user's
+  coordinates (London fallback)
 - Phase colours: wood=#50ba71, fire=#d9413a, earth=#f2b362, metal=#cccec6, water=#2e8493
 - Dynamic page title: `☀️ SOLAR | 🌙 LUNAR | ⌛️ HOUR`
 

@@ -306,3 +306,156 @@ footer a:hover {
     font-size: 0.65rem;
   }
 }
+
+/* ── Nav (multi-link) ──────────────────────────────── */
+
+header nav ul {
+  display: flex;
+  gap: 1.25rem;
+}
+
+/* ── Practice page ─────────────────────────────────── */
+
+.practice main {
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+.practice-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.practice .practice-hero-text h2 {
+  margin: 0 0 0.25rem;
+  font-size: 2rem;
+}
+
+.practice-hero-text p {
+  margin: 0;
+}
+
+.practice-sun {
+  font-variant-numeric: tabular-nums;
+  color: #666;
+}
+
+.practice-session {
+  border: 1px solid var(--black);
+  border-left-width: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.practice-session.wood {
+  border-left-color: var(--wood);
+}
+.practice-session.fire {
+  border-left-color: var(--fire);
+}
+.practice-session.earth {
+  border-left-color: var(--earth);
+}
+.practice-session.metal {
+  border-left-color: var(--metal);
+}
+.practice-session.water {
+  border-left-color: var(--water);
+}
+
+.practice-session header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0;
+}
+
+.practice-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.practice-duration {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.practice-session h3 {
+  margin: 0.5rem 0 0.75rem;
+  font-weight: normal;
+  font-size: 1.25rem;
+}
+
+.practice-session ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.practice-session li {
+  margin-bottom: 0.6rem;
+}
+
+.practice-session li strong {
+  display: block;
+}
+
+.practice-session li span {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.practice-close {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #444;
+  margin: 0.75rem 0 0;
+}
+
+.practice-constants {
+  border-left: 3px solid var(--black);
+  padding-left: 1rem;
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+
+.practice-foods h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 0.5rem;
+}
+
+.practice-flavours {
+  font-weight: bold;
+}
+
+.practice-why,
+.practice-caveat {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.practice-caveat {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ccc;
+}
+
+@media screen and (max-width: 600px) {
+  .practice-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .practice .practice-hero-text h2 {
+    font-size: 1.5rem;
+  }
+}

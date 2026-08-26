@@ -32,8 +32,8 @@ wuxing-calendar/
     └── src/
         ├── main.ts
         ├── styles.css
-        ├── lib/ (wasm.ts, helpers.ts)
-        └── pages/ (home.ts, calendar.ts)
+        ├── lib/ (wasm.ts, helpers.ts, sun.ts, practice.ts)
+        └── pages/ (home.ts, calendar.ts, practice.ts)
 ```
 
 ### Crates
