@@ -31,4 +31,4 @@ export function get_phases(
   return _get_phases(timestamp_ms, hemisphere, exact) as Phases;
 }
 
-export { get_solar, get_lunar, get_hour, get_moon_angle, get_season_timestamp };
+export { get_hour, get_lunar, get_moon_angle, get_season_timestamp, get_solar };
