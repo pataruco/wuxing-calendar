@@ -4,6 +4,7 @@ import { convertToDMS } from './lib/helpers';
 import { loadWasm } from './lib/wasm';
 import { destroyCalendar, renderCalendar } from './pages/calendar';
 import { destroyHome, renderHome } from './pages/home';
+import { destroyPractice, renderPractice } from './pages/practice';
 
 // ── App state ────────────────────────────────────────
 
@@ -39,6 +40,38 @@ function updateCoordinates(): void {
 
 // ── Router ───────────────────────────────────────────
 
+interface Route {
+  hash: string;
+  label: string;
+  className: string;
+  render: (container: HTMLElement, state: AppState) => void;
+  destroy: () => void;
+}
+
+const routes: Route[] = [
+  {
+    hash: '#/',
+    label: 'Now',
+    className: 'home',
+    render: renderHome,
+    destroy: destroyHome,
+  },
+  {
+    hash: '#/calendar',
+    label: 'Calendar',
+    className: 'calendar',
+    render: renderCalendar,
+    destroy: destroyCalendar,
+  },
+  {
+    hash: '#/practice',
+    label: 'Practice',
+    className: 'practice',
+    render: renderPractice,
+    destroy: destroyPractice,
+  },
+];
+
 let currentDestroy: (() => void) | null = null;
 
 function navigate(): void {
@@ -51,27 +84,27 @@ function navigate(): void {
   const app = document.getElementById('app');
   if (!app) return;
 
+  const route = routes.find((r) => r.hash === hash) ?? routes[0];
+
   // Build shell
   app.innerHTML = '';
-  app.className = hash === '#/calendar' ? 'calendar' : 'home';
+  app.className = route.className;
 
-  // Header
+  // Header — link to every page except the current one
   const header = document.createElement('header');
   const nav = document.createElement('nav');
   const ul = document.createElement('ul');
-  const li = document.createElement('li');
-  const link = document.createElement('a');
 
-  if (hash === '#/calendar') {
-    link.href = '#/';
-    link.textContent = 'Now';
-  } else {
-    link.href = '#/calendar';
-    link.textContent = 'Calendar';
+  for (const other of routes) {
+    if (other.hash === route.hash) continue;
+    const li = document.createElement('li');
+    const link = document.createElement('a');
+    link.href = other.hash;
+    link.textContent = other.label;
+    li.appendChild(link);
+    ul.appendChild(li);
   }
 
-  li.appendChild(link);
-  ul.appendChild(li);
   nav.appendChild(ul);
   header.appendChild(nav);
 
@@ -94,13 +127,8 @@ function navigate(): void {
   updateCoordinates();
 
   // Render page
-  if (hash === '#/calendar') {
-    renderCalendar(content, state);
-    currentDestroy = destroyCalendar;
-  } else {
-    renderHome(content, state);
-    currentDestroy = destroyHome;
-  }
+  route.render(content, state);
+  currentDestroy = route.destroy;
 }
 
 // ── Bootstrap ────────────────────────────────────────
