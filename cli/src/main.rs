@@ -143,7 +143,7 @@ fn main() {
                 let hem_display = format!(
                     "{}{}",
                     hem.chars().next().unwrap(),
-                    &hem[1..].to_lowercase()
+                    hem[1..].to_lowercase()
                 );
                 println!();
                 println!("  \u{2600}\u{FE0F}  Solar:  {}", color_phase(solar));
