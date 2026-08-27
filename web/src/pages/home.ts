@@ -25,7 +25,10 @@ export function renderHome(container: HTMLElement, state: AppState): void {
   const solarDate = document.createElement('h2');
   solarDate.id = 'solar-date';
 
-  solarSection.append(solarLabel, solarDate);
+  const solarRow = document.createElement('div');
+  solarRow.className = 'phase-row';
+  solarRow.append(solarLabel, solarDate);
+  solarSection.append(buildCaption('Solar'), solarRow);
 
   // ── Hour section ───────────────────────────────────
   const hourSection = document.createElement('section');
@@ -38,7 +41,10 @@ export function renderHome(container: HTMLElement, state: AppState): void {
   const hourTime = document.createElement('h1');
   hourTime.id = 'hour-time';
 
-  hourSection.append(hourLabel, hourTime);
+  const hourRow = document.createElement('div');
+  hourRow.className = 'phase-row';
+  hourRow.append(hourLabel, hourTime);
+  hourSection.append(buildCaption('Hour'), hourRow);
 
   // ── Lunar section ──────────────────────────────────
   const lunarSection = document.createElement('section');
@@ -60,7 +66,10 @@ export function renderHome(container: HTMLElement, state: AppState): void {
   moonText.id = 'moon-text';
 
   lunarInfo.append(moonEmoji, moonText);
-  lunarSection.append(lunarLabel, lunarInfo);
+  const lunarRow = document.createElement('div');
+  lunarRow.className = 'phase-row';
+  lunarRow.append(lunarLabel, lunarInfo);
+  lunarSection.append(buildCaption('Lunar'), lunarRow);
 
   main.append(solarSection, hourSection, lunarSection);
   container.appendChild(main);
@@ -68,6 +77,14 @@ export function renderHome(container: HTMLElement, state: AppState): void {
   // Start ticking
   update(state);
   intervalId = setInterval(() => update(state), 1000);
+}
+
+/** Small uppercase caption naming the reading (Solar / Hour / Lunar). */
+function buildCaption(text: string): HTMLElement {
+  const caption = document.createElement('p');
+  caption.className = 'phase-caption';
+  caption.textContent = text;
+  return caption;
 }
 
 function update(state: AppState): void {
