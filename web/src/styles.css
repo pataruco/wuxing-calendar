@@ -66,6 +66,7 @@ li {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 main,
@@ -143,9 +144,11 @@ footer a:hover {
 }
 .phase-label.earth {
   background-color: var(--earth);
+  color: var(--black);
 }
 .phase-label.metal {
   background-color: var(--metal);
+  color: var(--black);
 }
 .phase-label.water {
   background-color: var(--water);
@@ -155,24 +158,37 @@ footer a:hover {
 
 .home main {
   flex-direction: column;
-  max-width: 75%;
+  width: 100%;
+  max-width: 60rem;
   margin: 0 auto;
+  padding: 1.25rem;
   align-items: flex-start;
 }
 
 .home section {
-  display: flex;
-  align-items: center;
   margin-bottom: 2rem;
 }
 
+.home .phase-caption {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 0.5rem;
+}
+
+.home .phase-row {
+  display: flex;
+  align-items: center;
+}
+
 .home .solar h2 {
-  font-size: 4.5rem;
+  font-size: clamp(1.5rem, 5vw, 4.5rem);
   margin: 0 0 0 1.25rem;
 }
 
 .home .hour h1 {
-  font-size: 6rem;
+  font-size: clamp(2.5rem, 10vw, 6rem);
   margin: 0 0 0 1.25rem;
 }
 
@@ -181,7 +197,7 @@ footer a:hover {
 }
 
 .home .lunar .moon-emoji {
-  font-size: 8rem;
+  font-size: clamp(4rem, 14vw, 8rem);
   margin: 0;
   line-height: 1;
 }
@@ -191,15 +207,16 @@ footer a:hover {
   max-width: unset;
 }
 
-@media screen and (max-width: 768px) {
-  .home .solar h2 {
-    font-size: 2rem;
+@media screen and (max-width: 480px) {
+  .home .phase-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
-  .home .hour h1 {
-    font-size: 3rem;
-  }
-  .home .lunar .moon-emoji {
-    font-size: 4rem;
+  .home .solar h2,
+  .home .hour h1,
+  .home .lunar .lunar-info {
+    margin-left: 0;
   }
 }
 
@@ -220,6 +237,8 @@ footer a:hover {
 
 .calendar-nav h2 {
   margin: 0;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  text-align: center;
 }
 
 .calendar-nav button {
@@ -227,6 +246,8 @@ footer a:hover {
   color: white;
   border: 1px solid white;
   padding: 0.5rem 1rem;
+  min-height: 44px;
+  min-width: 44px;
   cursor: pointer;
   font-size: 1rem;
 }
@@ -278,6 +299,10 @@ footer a:hover {
   text-overflow: ellipsis;
 }
 
+.day-cell .event .event-icon {
+  margin-right: 0.25em;
+}
+
 .event.wood {
   background-color: var(--wood);
 }
@@ -286,9 +311,11 @@ footer a:hover {
 }
 .event.earth {
   background-color: var(--earth);
+  color: var(--black);
 }
 .event.metal {
   background-color: var(--metal);
+  color: var(--black);
 }
 .event.water {
   background-color: var(--water);
@@ -298,12 +325,92 @@ footer a:hover {
   background-color: var(--black);
 }
 
+/* Long / short labels — CSS picks one, so orientation
+   changes re-flow without any JS width checks */
+.cal-short {
+  display: none;
+}
+
+/* Legend only appears when the pills lose their text */
+.calendar-legend {
+  display: none;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+.calendar-legend p {
+  margin: 0;
+}
+
+.calendar-legend ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  border-radius: 2px;
+  margin-right: 0.35em;
+  vertical-align: -0.15em;
+}
+
+.legend-swatch.wood {
+  background-color: var(--wood);
+}
+.legend-swatch.fire {
+  background-color: var(--fire);
+}
+.legend-swatch.earth {
+  background-color: var(--earth);
+}
+.legend-swatch.metal {
+  background-color: var(--metal);
+}
+.legend-swatch.water {
+  background-color: var(--water);
+}
+
 @media screen and (max-width: 750px) {
-  .calendar-grid .day-cell {
-    min-height: 70px;
+  .cal-long {
+    display: none;
   }
+  .cal-short {
+    display: inline;
+  }
+
+  .calendar-grid .day-cell {
+    min-height: 56px;
+  }
+
+  /* Phase pills collapse into colour bars; the full reading
+     stays available via title and aria-label */
   .day-cell .event {
-    font-size: 0.65rem;
+    height: 8px;
+    padding: 0;
+    border-radius: 4px;
+  }
+  .day-cell .event .event-icon,
+  .day-cell .event .event-text {
+    display: none;
+  }
+
+  /* Season markers are rare, genuinely new information —
+     they keep a short visible label */
+  .day-cell .event.marker {
+    height: auto;
+    padding: 2px 3px;
+    font-size: 0.6rem;
+    white-space: normal;
+  }
+
+  .calendar-legend {
+    display: block;
   }
 }
 

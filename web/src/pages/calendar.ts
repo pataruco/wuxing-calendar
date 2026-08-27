@@ -32,11 +32,21 @@ export function renderCalendar(container: HTMLElement, state: AppState): void {
   const main = document.createElement('main');
   main.innerHTML = `
     <div class="calendar-nav">
-      <button id="cal-prev">&larr; Prev</button>
+      <button id="cal-prev" aria-label="Previous month">&larr; Prev</button>
       <h2 id="cal-title"></h2>
-      <button id="cal-next">Next &rarr;</button>
+      <button id="cal-next" aria-label="Next month">Next &rarr;</button>
     </div>
     <div class="calendar-grid" id="cal-grid"></div>
+    <div class="calendar-legend">
+      <p>☀️ top bar: solar phase &middot; \u{1F319} bottom bar: lunar phase</p>
+      <ul>
+        <li><span class="legend-swatch wood"></span>Wood</li>
+        <li><span class="legend-swatch fire"></span>Fire</li>
+        <li><span class="legend-swatch earth"></span>Earth</li>
+        <li><span class="legend-swatch metal"></span>Metal</li>
+        <li><span class="legend-swatch water"></span>Water</li>
+      </ul>
+    </div>
   `;
   container.appendChild(main);
 
@@ -74,16 +84,22 @@ function drawMonth(state: AppState): void {
       year: 'numeric',
     }).format(monthDate);
 
-  // Day headers
-  const isNarrow = window.innerWidth < 750;
-  const dayFormat = isNarrow ? 'short' : 'long';
+  // Day headers — both label lengths in the DOM, CSS picks one
   for (let d = 0; d < 7; d++) {
     const ref = new Date(2024, 0, d + 1); // Mon Jan 1 2024 = Monday
     const header = document.createElement('div');
     header.className = 'day-header';
-    header.textContent = new Intl.DateTimeFormat(locale, {
-      weekday: dayFormat,
+    const long = document.createElement('span');
+    long.className = 'cal-long';
+    long.textContent = new Intl.DateTimeFormat(locale, {
+      weekday: 'long',
     }).format(ref);
+    const short = document.createElement('span');
+    short.className = 'cal-short';
+    short.textContent = new Intl.DateTimeFormat(locale, {
+      weekday: 'short',
+    }).format(ref);
+    header.append(long, short);
     grid.appendChild(header);
   }
 
@@ -130,32 +146,74 @@ function drawMonth(state: AppState): void {
 
       // Solar phase (exact: true)
       const solar = get_solar(ms, state.hemisphere, true);
-      const solarEvent = document.createElement('div');
-      solarEvent.className = `event ${solar.toLowerCase()}`;
-      solarEvent.textContent = `\u2600\uFE0F ${capitalize(solar)}`;
-      cell.appendChild(solarEvent);
+      cell.appendChild(
+        buildEvent(
+          solar.toLowerCase(),
+          '\u2600\uFE0F',
+          capitalize(solar),
+          'Solar',
+        ),
+      );
 
       // Lunar phase (exact: false)
       const lunar = get_lunar(ms, false);
       const angle = get_moon_angle(ms);
       const moon = getMoonDisplay(angle);
-      const lunarEvent = document.createElement('div');
-      lunarEvent.className = `event ${lunar.toLowerCase()}`;
-      lunarEvent.textContent = `${moon.emoji} ${capitalize(lunar)}`;
-      cell.appendChild(lunarEvent);
+      cell.appendChild(
+        buildEvent(lunar.toLowerCase(), moon.emoji, capitalize(lunar), 'Lunar'),
+      );
 
       // Season markers
       const dateKey = `${cellDate.getFullYear()}-${String(cellDate.getMonth() + 1).padStart(2, '0')}-${String(cellDate.getDate()).padStart(2, '0')}`;
       if (seasonMarkers[dateKey]) {
+        const marker = seasonMarkers[dateKey];
         const markerEvent = document.createElement('div');
-        markerEvent.className = `event ${seasonMarkers[dateKey].type}`;
-        markerEvent.textContent = seasonMarkers[dateKey].label;
+        markerEvent.className = `event marker ${marker.type}`;
+        const long = document.createElement('span');
+        long.className = 'cal-long';
+        long.textContent = marker.label;
+        const short = document.createElement('span');
+        short.className = 'cal-short';
+        short.textContent = capitalize(marker.type);
+        markerEvent.append(long, short);
         cell.appendChild(markerEvent);
       }
     }
 
     grid.appendChild(cell);
   }
+}
+
+/**
+ * Build a phase event pill: emoji + text on wide screens,
+ * collapsed by CSS to a colour bar on narrow ones. The full
+ * reading stays available to touch (title) and screen readers.
+ */
+function buildEvent(
+  phaseClass: string,
+  emoji: string,
+  text: string,
+  kind: string,
+): HTMLElement {
+  const event = document.createElement('div');
+  event.className = `event ${phaseClass}`;
+  const reading = `${kind}: ${text}`;
+  event.title = reading;
+  event.setAttribute('role', 'img');
+  event.setAttribute('aria-label', reading);
+
+  const icon = document.createElement('span');
+  icon.className = 'event-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = emoji;
+
+  const label = document.createElement('span');
+  label.className = 'event-text';
+  label.setAttribute('aria-hidden', 'true');
+  label.textContent = text;
+
+  event.append(icon, label);
+  return event;
 }
 
 function buildSeasonMarkers(year: number): Record<string, SeasonMarker> {
