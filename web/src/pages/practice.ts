@@ -1,15 +1,22 @@
 import type { AppState } from '../lib/helpers';
 import { capitalize, formatDate, formatTime } from '../lib/helpers';
-import type { Session } from '../lib/practice';
-import { CONSTANTS, DIET_CAVEAT, PRACTICE } from '../lib/practice';
+import type { PracticeRecommendation, Session } from '../lib/practice';
+import {
+  CONSTANTS,
+  DIET_CAVEAT,
+  getSolarLunarPractice,
+  isPhase,
+  PRACTICE,
+} from '../lib/practice';
 import { getSunTimes } from '../lib/sun';
-import { get_solar } from '../lib/wasm';
+import { get_lunar, get_solar } from '../lib/wasm';
 
 // Fallback when geolocation is denied or unavailable
 const LONDON = { lat: 51.5074, lng: -0.1278 };
 
 let intervalId: ReturnType<typeof setInterval> | null = null;
 let lastPhase = '';
+let lastSynergy = '';
 
 export function renderPractice(container: HTMLElement, state: AppState): void {
   container.innerHTML = '';
@@ -25,6 +32,7 @@ export function renderPractice(container: HTMLElement, state: AppState): void {
       </div>
     </section>
     <div id="practice-sessions"></div>
+    <section class="practice-synergy" id="practice-synergy"></section>
     <p class="practice-constants">${CONSTANTS}</p>
     <section class="practice-foods">
       <h3>Eating with the phase</h3>
@@ -37,8 +45,9 @@ export function renderPractice(container: HTMLElement, state: AppState): void {
   container.appendChild(main);
 
   lastPhase = '';
+  lastSynergy = '';
   update(state);
-  // The solar phase changes at most twice a day; a minute tick is generous.
+  // Solar and lunar phases change at most a few times a day; a minute tick is generous.
   intervalId = setInterval(() => update(state), 60_000);
 }
 
@@ -52,6 +61,7 @@ export function destroyPractice(): void {
 function update(state: AppState): void {
   const now = new Date();
   const phase = get_solar(now.getTime(), state.hemisphere, true);
+  const lunar = get_lunar(now.getTime(), true);
 
   const lat = state.latitude ?? LONDON.lat;
   const lng = state.longitude ?? LONDON.lng;
@@ -67,6 +77,8 @@ function update(state: AppState): void {
 
   const dateEl = document.getElementById('practice-date');
   if (dateEl) dateEl.textContent = formatDate(now);
+
+  updateSynergy(phase, lunar);
 
   if (phase === lastPhase) return; // static content only re-renders on change
   lastPhase = phase;
@@ -154,4 +166,73 @@ function renderSession(
   }
 
   return section;
+}
+
+function updateSynergy(solar: string, lunar: string): void {
+  const key = `${solar}_${lunar}`;
+  if (key === lastSynergy) return;
+  lastSynergy = key;
+
+  const el = document.getElementById('practice-synergy');
+  if (!el) return;
+  el.innerHTML = '';
+  if (!isPhase(solar) || !isPhase(lunar)) return;
+
+  el.append(
+    ...renderSynergy(solar, lunar, getSolarLunarPractice(solar, lunar)),
+  );
+}
+
+function renderSynergy(
+  solar: string,
+  lunar: string,
+  rec: PracticeRecommendation,
+): HTMLElement[] {
+  const header = document.createElement('header');
+  const tag = document.createElement('span');
+  tag.className = 'practice-tag';
+  tag.textContent = 'Solar + Lunar Synergy';
+  const dynamics = document.createElement('span');
+  dynamics.className = `synergy-dynamics ${rec.dynamics}`;
+  dynamics.textContent = rec.dynamics;
+  header.append(tag, dynamics);
+
+  const badges = document.createElement('p');
+  badges.className = 'synergy-badges';
+  badges.append(
+    badge('\u2600\uFE0F', solar),
+    document.createTextNode(' + '),
+    badge('\u{1F319}', lunar),
+    Object.assign(document.createElement('span'), {
+      className: 'synergy-relation',
+      textContent: rec.relationshipName,
+    }),
+  );
+
+  const title = document.createElement('h3');
+  title.textContent = rec.title;
+
+  const focus = document.createElement('p');
+  focus.className = 'synergy-focus';
+  focus.textContent = rec.focus;
+
+  const list = document.createElement('ul');
+  for (const name of rec.recommendedPractices) {
+    const li = document.createElement('li');
+    li.textContent = name;
+    list.appendChild(li);
+  }
+
+  const guidance = document.createElement('p');
+  guidance.className = 'practice-close';
+  guidance.textContent = rec.guidance;
+
+  return [header, badges, title, focus, list, guidance];
+}
+
+function badge(icon: string, phase: string): HTMLElement {
+  const span = document.createElement('span');
+  span.className = `synergy-badge ${phase.toLowerCase()}`;
+  span.textContent = `${icon} ${capitalize(phase)}`;
+  return span;
 }
