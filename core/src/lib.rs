@@ -5,7 +5,7 @@ pub mod phase;
 pub use calendars::hour::get_hour_phase;
 pub use calendars::lunar::get_lunar_phase;
 pub use calendars::solar::get_solar_phase;
-pub use phase::Phase;
+pub use phase::{Phase, Relation};
 
 /// Result of computing all three phases for a given moment.
 pub struct Phases {

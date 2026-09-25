@@ -526,6 +526,94 @@ header nav ul {
   margin: 0.75rem 0 0;
 }
 
+.practice-synergy {
+  border: 1px solid var(--black);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.practice-synergy:empty {
+  display: none;
+}
+
+.practice-synergy header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0;
+}
+
+.synergy-dynamics {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.1rem 0.5rem;
+  border: 1px solid var(--black);
+}
+
+.synergy-dynamics.amplified {
+  background-color: var(--black);
+  color: white;
+}
+
+.synergy-dynamics.overcoming {
+  border-style: dashed;
+}
+
+.synergy-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+}
+
+.synergy-badge {
+  padding: 0.2rem 0.6rem;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.synergy-badge.wood {
+  background-color: var(--wood);
+}
+.synergy-badge.fire {
+  background-color: var(--fire);
+}
+.synergy-badge.earth {
+  background-color: var(--earth);
+  color: var(--black);
+}
+.synergy-badge.metal {
+  background-color: var(--metal);
+  color: var(--black);
+}
+.synergy-badge.water {
+  background-color: var(--water);
+}
+
+.synergy-relation {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.practice-synergy h3 {
+  margin: 0.5rem 0 0.25rem;
+  font-weight: normal;
+  font-size: 1.25rem;
+}
+
+.synergy-focus {
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0 0 0.75rem;
+}
+
+.practice-synergy ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
 .practice-constants {
   border-left: 3px solid var(--black);
   padding-left: 1rem;

@@ -1,6 +1,6 @@
 use serde::Serialize;
 use wasm_bindgen::prelude::*;
-use wuxing_core::{get_hour_phase, get_lunar_phase, get_solar_phase};
+use wuxing_core::{Phase, get_hour_phase, get_lunar_phase, get_solar_phase};
 
 #[derive(Serialize)]
 struct Phases {
@@ -58,4 +58,17 @@ pub fn get_moon_angle(timestamp_ms: f64) -> f64 {
 #[must_use]
 pub fn get_season_timestamp(year: i32, season: u8) -> f64 {
     wuxing_core::get_season_timestamp(year, season)
+}
+
+/// Return how phase `a` relates to phase `b` in the wuxing cycles:
+/// `SAME`, `GENERATES`, `GENERATED_BY`, `OVERCOMES` or `OVERCOME_BY`.
+///
+/// # Errors
+///
+/// Returns an error if either argument is not a phase name.
+#[wasm_bindgen]
+pub fn get_phase_relation(a: &str, b: &str) -> Result<String, JsError> {
+    let a: Phase = a.parse().map_err(|e: String| JsError::new(&e))?;
+    let b: Phase = b.parse().map_err(|e: String| JsError::new(&e))?;
+    Ok(a.relation(b).to_string())
 }
